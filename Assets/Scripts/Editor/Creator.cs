@@ -91,7 +91,6 @@ public sealed class Creator : EditorWindow
                 _parentTransform)
                 .transform.localScale = scale;
 
-            Debug.Log($"Instantiated {_gameObject.name} at {hit.point}");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
