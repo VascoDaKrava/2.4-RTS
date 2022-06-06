@@ -3,6 +3,7 @@ using Abstractions;
 using UnityEngine;
 using UserControlSystem;
 
+
 public sealed class MouseInteractionPresenter : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
@@ -25,21 +26,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
             .Select(hit => hit.collider.GetComponentInParent<ISelectable>())
             .FirstOrDefault(c => c != null);
 
-        if (_selectedObject.CurrentValue != null)
-        {
-            _selectedObject.CurrentValue.Selected = false;
-        }
-
         _selectedObject.SetValue(selectable);
 
-        if (_selectedObject.CurrentValue != null)
-        {
-            _selectedObject.CurrentValue.Selected = true;
-
-            //if (selectable is IUnitProducer producer)
-            //{
-            //    producer.ProduceUnit();
-            //}
-        }
     }
 }
