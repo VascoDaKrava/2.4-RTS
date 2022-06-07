@@ -7,5 +7,6 @@ namespace Abstractions
         float Health { get; }
         float MaxHealth { get; }
         Sprite Icon { get; }
+        bool Selected { get; set; }
     }
 }
