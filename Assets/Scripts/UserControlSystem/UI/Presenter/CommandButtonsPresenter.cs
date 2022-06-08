@@ -49,7 +49,7 @@ namespace UserControlSystem.UI.Presenter
             switch (commandExecutor)
             {
                 case CommandExecutorBase<IProduceUnitCommand> unitProducer:
-                    unitProducer.ExecuteSpecificCommand(_context.Inject(new ProduceUnitCommand()));
+                    unitProducer.ExecuteSpecificCommand(_context.Inject(new ProduceUnitCommandHeir()));
                     break;
 
                 case CommandExecutorBase<IAttackCommand> attackExecutor:
