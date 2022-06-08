@@ -20,7 +20,7 @@ namespace UserControlSystem.UI.View
 
         private Dictionary<Type, GameObject> _buttonsByExecutorType;
 
-        private void Start()
+        private void Awake()
         {
             _buttonsByExecutorType = new Dictionary<Type, GameObject>();
             _buttonsByExecutorType

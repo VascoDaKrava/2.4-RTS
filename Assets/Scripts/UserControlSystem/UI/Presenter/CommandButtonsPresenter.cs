@@ -23,6 +23,7 @@ namespace UserControlSystem.UI.Presenter
             _selectable.OnSelected += ONSelected;
             ONSelected(_selectable.CurrentValue);
 
+            _view.Clear();
             _view.OnClick += ONButtonClick;
         }
 
@@ -45,14 +46,33 @@ namespace UserControlSystem.UI.Presenter
 
         private void ONButtonClick(ICommandExecutor commandExecutor)
         {
-            var unitProducer = commandExecutor as CommandExecutorBase<IProduceUnitCommand>;
-            if (unitProducer != null)
+            switch (commandExecutor)
             {
-                unitProducer.ExecuteSpecificCommand(_context.Inject(new ProduceUnitCommand()));
-                return;
-            }
-            throw new ApplicationException($"{nameof(CommandButtonsPresenter)}.{nameof(ONButtonClick)}: " +
+                case CommandExecutorBase<IProduceUnitCommand> unitProducer:
+                    unitProducer.ExecuteSpecificCommand(_context.Inject(new ProduceUnitCommand()));
+                    break;
+
+                case CommandExecutorBase<IAttackCommand> attackExecutor:
+                    attackExecutor.ExecuteSpecificCommand(new AttackCommand());
+                    break;
+
+                case CommandExecutorBase<IMoveCommand> moveExecutor:
+                    moveExecutor.ExecuteSpecificCommand(new MoveCommand());
+                    break;
+
+                case CommandExecutorBase<IPatrolCommand> patrolExecutor:
+                    patrolExecutor.ExecuteSpecificCommand(new PatrolCommand());
+                    break;
+
+                case CommandExecutorBase<IStopCommand> stopExecutor:
+                    stopExecutor.ExecuteSpecificCommand(new StopCommand());
+                    break;
+
+                default:
+                    throw new ApplicationException($"{nameof(CommandButtonsPresenter)}.{nameof(ONButtonClick)}: " +
                                            $"Unknown type of commands executor: {commandExecutor.GetType().FullName}!");
+                    break;
+            }
         }
     }
 }
