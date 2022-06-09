@@ -8,7 +8,7 @@ namespace Abstractions.Commands.CommandExecutors
     {
         public override void ExecuteSpecificCommand(IMoveCommand command)
         {
-            Debug.Log($"{name} do {command.GetType()}");
+            Debug.Log($"{name} do {command.GetType()} to {command.Target}");
         }
     }
 }
