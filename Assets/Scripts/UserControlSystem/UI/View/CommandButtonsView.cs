@@ -20,7 +20,7 @@ namespace UserControlSystem.UI.View
 
         private Dictionary<Type, GameObject> _buttonsByExecutorType;
 
-        private void Start()
+        private void Awake()
         {
             _buttonsByExecutorType = new Dictionary<Type, GameObject>();
             _buttonsByExecutorType
@@ -34,6 +34,7 @@ namespace UserControlSystem.UI.View
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton);
         }
+
         public void BlockInteractions(ICommandExecutor ce)
         {
             UnblockAllInteractions();

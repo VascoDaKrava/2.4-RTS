@@ -20,6 +20,7 @@ namespace UserControlSystem.UI.Presenter
         
         private void Start()
         {
+            _view.Clear();
             _view.OnClick += _model.OnCommandButtonClicked;
             _model.OnCommandSent += _view.UnblockAllInteractions;
             _model.OnCommandCancel += _view.UnblockAllInteractions;
@@ -35,13 +36,16 @@ namespace UserControlSystem.UI.Presenter
             {
                 return;
             }
+
             if (_currentSelectable != null)
             {
                 _model.OnSelectionChanged();
             }
+
             _currentSelectable = selectable;
 
             _view.Clear();
+
             if (selectable != null)
             {
                 var commandExecutors = new List<ICommandExecutor>();
