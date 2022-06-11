@@ -12,18 +12,7 @@ namespace UserControlSystem
 
         public void SetValue(ISelectable value)
         {
-            //if (CurrentValue != null)
-            //{
-            //    CurrentValue.Selected = false;
-            //}
-            
             CurrentValue = value;
-
-            //if (value != null)
-            //{
-            //    value.Selected = true;
-            //}
-
             OnSelected?.Invoke(value);
         }
     }

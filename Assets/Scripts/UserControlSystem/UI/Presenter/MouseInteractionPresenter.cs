@@ -61,6 +61,5 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     {
         var groundPoint = hits.FirstOrDefault(hit => hit.transform.gameObject.CompareTag(GROUND_TAG)).point;
         _groundPointClick.SetValue(groundPoint);
-        Debug.Log(groundPoint);
     }
 }

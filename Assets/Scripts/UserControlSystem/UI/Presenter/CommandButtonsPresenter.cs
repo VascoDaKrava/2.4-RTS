@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Abstractions;
 using Abstractions.Commands;
-using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
-using UserControlSystem.CommandsRealization;
 using UserControlSystem.UI.View;
-using Utils;
 using Zenject;
+
 
 namespace UserControlSystem.UI.Presenter
 {
@@ -28,6 +25,15 @@ namespace UserControlSystem.UI.Presenter
 
             _selectable.OnSelected += ONSelected;
             ONSelected(_selectable.CurrentValue);
+        }
+
+        private void OnDestroy()
+        {
+            _view.OnClick -= _model.OnCommandButtonClicked;
+            _model.OnCommandSent -= _view.UnblockAllInteractions;
+            _model.OnCommandCancel -= _view.UnblockAllInteractions;
+            _model.OnCommandAccepted -= _view.BlockInteractions;
+            _selectable.OnSelected -= ONSelected;
         }
 
         private void ONSelected(ISelectable selectable)
