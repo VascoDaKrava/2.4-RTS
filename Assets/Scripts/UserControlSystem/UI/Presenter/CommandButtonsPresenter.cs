@@ -23,7 +23,7 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandCancel += _view.UnblockAllInteractions;
             _model.OnCommandAccepted += _view.BlockInteractions;
 
-            _selectable.OnSelected += ONSelected;
+            _selectable.OnValueChange += ONSelected;
             ONSelected(_selectable.CurrentValue);
         }
 
@@ -33,7 +33,7 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandSent -= _view.UnblockAllInteractions;
             _model.OnCommandCancel -= _view.UnblockAllInteractions;
             _model.OnCommandAccepted -= _view.BlockInteractions;
-            _selectable.OnSelected -= ONSelected;
+            _selectable.OnValueChange -= ONSelected;
         }
 
         private void ONSelected(ISelectable selectable)

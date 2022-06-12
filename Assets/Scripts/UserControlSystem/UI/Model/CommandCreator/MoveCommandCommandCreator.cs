@@ -5,6 +5,7 @@ using UserControlSystem.CommandsRealization;
 using Utils;
 using Zenject;
 
+
 namespace UserControlSystem
 {
     public sealed class MoveCommandCommandCreator : CommandCreatorBase<IMoveCommand>
@@ -13,7 +14,7 @@ namespace UserControlSystem
         private Action<IMoveCommand> _creationCallback;
 
         [Inject]
-        private void Init(Vector3Value groundClicks) => groundClicks.OnNewValue += ONNewValue;
+        private void Init(Vector3Value groundClicks) => groundClicks.OnValueChange += ONNewValue;
         
         private void ONNewValue(Vector3 groundClick)
         {

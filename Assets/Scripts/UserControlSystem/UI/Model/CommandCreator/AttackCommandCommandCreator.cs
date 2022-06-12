@@ -14,16 +14,21 @@ namespace UserControlSystem
         private Action<IAttackCommand> _creationCallback;
 
         [Inject]
-        private void Init(Vector3Value groundClicks) => groundClicks.OnNewValue += ONNewValue;
+        private void Init(Vector3Value groundClicks)
+        {
+            groundClicks.OnValueChange += ONNewValue;
+        }
 
         private void ONNewValue(Vector3 groundClick)
         {
-            _creationCallback?.Invoke(_context.Inject(new AttackCommand(groundClick)));
+            //_creationCallback?.Invoke(_context.Inject(new AttackCommand(groundClick)));
             _creationCallback = null;
         }
 
         protected override void ClassSpecificCommandCreation(Action<IAttackCommand> creationCallback)
-            => _creationCallback = creationCallback;
+        {
+            _creationCallback = creationCallback;
+        }
 
         public override void ProcessCancel()
         {

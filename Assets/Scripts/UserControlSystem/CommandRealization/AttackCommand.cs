@@ -1,15 +1,14 @@
+using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
+
 
 namespace UserControlSystem.CommandsRealization
 {
     public sealed class AttackCommand : IAttackCommand
     {
-        public Vector3 Target { get; }
-
-        public AttackCommand(Vector3 target)
+        public AttackCommand(IDamagable target, float damage)
         {
-            Target = target;
+            target.GetDamage(damage);
         }
     }
 }
