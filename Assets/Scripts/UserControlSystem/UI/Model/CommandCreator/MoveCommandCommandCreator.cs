@@ -14,7 +14,7 @@ namespace UserControlSystem
 
         [Inject]
         private void Init(Vector3Value groundClicks) => groundClicks.OnNewValue += ONNewValue;
-
+        
         private void ONNewValue(Vector3 groundClick)
         {
             _creationCallback?.Invoke(_context.Inject(new MoveCommand(groundClick)));

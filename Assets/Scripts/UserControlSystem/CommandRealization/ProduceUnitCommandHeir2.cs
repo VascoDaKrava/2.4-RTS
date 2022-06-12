@@ -1,6 +1,11 @@
-﻿namespace UserControlSystem.CommandsRealization
+﻿using Abstractions.Commands.CommandsInterfaces;
+using UnityEngine;
+using Utils;
+
+
+namespace UserControlSystem.CommandsRealization
 {
-    public class ProduceUnitCommandHeir2 : ProduceUnitCommand
+    public class ProduceUnitCommandHeir2
     {
         
     }

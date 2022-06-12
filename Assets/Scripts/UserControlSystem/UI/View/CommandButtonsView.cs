@@ -23,14 +23,19 @@ namespace UserControlSystem.UI.View
         private void Awake()
         {
             _buttonsByExecutorType = new Dictionary<Type, GameObject>();
+
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IAttackCommand>), _attackButton);
+            
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IMoveCommand>), _moveButton);
+            
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IPatrolCommand>), _patrolButton);
+            
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IStopCommand>), _stopButton);
+            
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton);
         }
