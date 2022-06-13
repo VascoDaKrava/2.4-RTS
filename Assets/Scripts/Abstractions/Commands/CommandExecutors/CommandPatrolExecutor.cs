@@ -8,7 +8,7 @@ namespace Abstractions.Commands.CommandExecutors
     {
         public override void ExecuteSpecificCommand(IPatrolCommand command)
         {
-            Debug.Log($"{name} do {command.GetType()}");
+            Debug.Log($"{name} start patrol from {command.StartPoint} to {command.FinishPoint}");
         }
     }
 }

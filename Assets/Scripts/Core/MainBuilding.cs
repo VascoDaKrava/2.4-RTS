@@ -27,6 +27,7 @@ namespace Core
             get => _selectionMarker.activeSelf;
             set => _selectionMarker.SetActive(value);
         }
+        public Vector3 Position { get => transform.position; set => transform.position = value; }
 
         public override void ExecuteSpecificCommand(IProduceUnitCommand command)
             => Instantiate(command.UnitPrefab,

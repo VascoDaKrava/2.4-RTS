@@ -8,7 +8,7 @@ using UserControlSystem;
 public sealed class MouseInteractionPresenter : MonoBehaviour
 {
     private const string GROUND_TAG = "Ground";
-    
+
     [SerializeField] private Camera _camera;
     [SerializeField] private SelectableValue _selectedObject;
     [SerializeField] private EventSystem _eventSystem;
@@ -51,7 +51,10 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
 
     private void LeftButtonClickHandler(RaycastHit[] hits)
     {
+        _selectedObject.SetValue(null);
         _selectedObject.SetValue(HitResult<ISelectable>(hits));
+        
+        _attackableValue.SetValue(null);
         _attackableValue.SetValue(HitResult<IAttackable>(hits));
     }
 
@@ -65,8 +68,12 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
 
     private T HitResult<T>(RaycastHit[] hits)
     {
-        return hits
+        T hitResult = default;
+
+        hitResult = hits
             .Select(hit => hit.collider.GetComponentInParent<T>())
             .FirstOrDefault(c => c != null);
+
+        return hitResult;
     }
 }

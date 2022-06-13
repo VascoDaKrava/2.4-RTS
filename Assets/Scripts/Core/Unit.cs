@@ -35,6 +35,8 @@ namespace Core
 
         public float AttackStrength => _attackStrength;
 
+        public Vector3 Position { get => transform.position; set => transform.position = value; }
+
         #endregion
 
     }
