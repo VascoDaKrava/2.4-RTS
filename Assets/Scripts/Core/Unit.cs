@@ -18,7 +18,7 @@ namespace Core
         [SerializeField]
         private GameObject _selectionMarker;
 
-        private float _health;
+        private float _health = 75.0f;
 
         #endregion
 
