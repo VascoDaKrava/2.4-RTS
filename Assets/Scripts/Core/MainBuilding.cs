@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable
+    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable, IDamagable
     {
 
         [SerializeField] private Transform _unitsParent;
@@ -33,5 +33,11 @@ namespace Core
                 new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)),
                 Quaternion.identity,
                 _unitsParent);
+
+        public void GetDamage(float value)
+        {
+            _health -= value;
+            Debug.Log($"{this} get {value} damage.");
+        }
     }
 }

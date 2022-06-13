@@ -3832,6 +3832,8 @@ MonoBehaviour:
   _selectedObject: {fileID: 11400000, guid: 7141aae4b16134e49af0215b6da77bcf, type: 2}
   _eventSystem: {fileID: 1122402356}
   _groundPointClick: {fileID: 11400000, guid: d8ee8cf8230e0bf4caad354500441474, type: 2}
+  _damagableValue: {fileID: 11400000, guid: 37340cbae701aaa4db908f89c3fa0c6f, type: 2}
+  _attackableValue: {fileID: 11400000, guid: c5db4881fceebfd48997ed7df5b95c4a, type: 2}
 --- !u!114 &1241604356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3859,6 +3861,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _legacyContext: {fileID: 11400000, guid: 9b722f212be4657489da1141c6eb6c44, type: 2}
   _vector3Value: {fileID: 11400000, guid: d8ee8cf8230e0bf4caad354500441474, type: 2}
+  _damagableValue: {fileID: 11400000, guid: 37340cbae701aaa4db908f89c3fa0c6f, type: 2}
+  _attackableleValue: {fileID: 11400000, guid: c5db4881fceebfd48997ed7df5b95c4a, type: 2}
 --- !u!114 &1241604358
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     [SerializeField] private SelectableValue _selectedObject;
     [SerializeField] private EventSystem _eventSystem;
     [SerializeField] private Vector3Value _groundPointClick;
+    [SerializeField] private DamagableValue _damagableValue;
+    [SerializeField] private AttackerValue _attackableValue;
 
     private void Update()
     {
@@ -49,17 +51,22 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
 
     private void LeftButtonClickHandler(RaycastHit[] hits)
     {
-        _selectedObject.SetValue(null);
-
-        var selectable = hits
-            .Select(hit => hit.collider.GetComponentInParent<ISelectable>())
-            .FirstOrDefault(c => c != null);
-        _selectedObject.SetValue(selectable);
+        _selectedObject.SetValue(HitResult<ISelectable>(hits));
+        _attackableValue.SetValue(HitResult<IAttackable>(hits));
     }
 
     private void RightButtonClickHandler(RaycastHit[] hits)
     {
         var groundPoint = hits.FirstOrDefault(hit => hit.transform.gameObject.CompareTag(GROUND_TAG)).point;
         _groundPointClick.SetValue(groundPoint);
+
+        _damagableValue.SetValue(HitResult<IDamagable>(hits));
+    }
+
+    private T HitResult<T>(RaycastHit[] hits)
+    {
+        return hits
+            .Select(hit => hit.collider.GetComponentInParent<T>())
+            .FirstOrDefault(c => c != null);
     }
 }

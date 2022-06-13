@@ -1,6 +1,6 @@
 ﻿using System;
+using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
 using UserControlSystem.CommandsRealization;
 using Utils;
 using Zenject;
@@ -11,17 +11,22 @@ namespace UserControlSystem
     public sealed class AttackCommandCommandCreator : CommandCreatorBase<IAttackCommand>
     {
         [Inject] private AssetsContext _context;
+        [Inject] private AttackerValue _attackable;
+
         private Action<IAttackCommand> _creationCallback;
 
         [Inject]
-        private void Init(Vector3Value groundClicks)
+        private void Init(DamagableValue damagable)
         {
-            groundClicks.OnValueChange += ONNewValue;
+            damagable.OnValueChange += ONNewValue;
         }
 
-        private void ONNewValue(Vector3 groundClick)
+        private void ONNewValue(IDamagable target)
         {
-            //_creationCallback?.Invoke(_context.Inject(new AttackCommand(groundClick)));
+            if (target == null)
+                return;
+            
+            _creationCallback?.Invoke(_context.Inject(new AttackCommand(target, _attackable.CurrentValue.AttackStrength)));
             _creationCallback = null;
         }
 
@@ -35,6 +40,6 @@ namespace UserControlSystem
             base.ProcessCancel();
             _creationCallback = null;
         }
-        
+
     }
 }
