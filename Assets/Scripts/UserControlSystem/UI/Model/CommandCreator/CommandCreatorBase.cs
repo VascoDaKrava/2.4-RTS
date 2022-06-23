@@ -1,6 +1,7 @@
 ﻿using System;
 using Abstractions.Commands;
 
+
 namespace UserControlSystem
 {
     public abstract class CommandCreatorBase<T> where T : ICommand

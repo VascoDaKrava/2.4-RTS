@@ -2,7 +2,6 @@
 using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 using UserControlSystem.CommandsRealization;
-using Utils;
 using Zenject;
 
 
@@ -10,7 +9,6 @@ namespace UserControlSystem
 {
     public sealed class MoveCommandCommandCreator : CommandCreatorBase<IMoveCommand>
     {
-        [Inject] private AssetsContext _context;
         private Action<IMoveCommand> _creationCallback;
 
         [Inject]
@@ -18,7 +16,7 @@ namespace UserControlSystem
         
         private void ONNewValue(Vector3 groundClick)
         {
-            _creationCallback?.Invoke(_context.Inject(new MoveCommand(groundClick)));
+            _creationCallback?.Invoke(new MoveCommand(groundClick));
             _creationCallback = null;
         }
 

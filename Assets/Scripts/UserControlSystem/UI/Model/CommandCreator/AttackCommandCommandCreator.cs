@@ -2,7 +2,6 @@
 using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
 using UserControlSystem.CommandsRealization;
-using Utils;
 using Zenject;
 
 
@@ -10,7 +9,6 @@ namespace UserControlSystem
 {
     public sealed class AttackCommandCommandCreator : CommandCreatorBase<IAttackCommand>
     {
-        [Inject] private AssetsContext _context;
         [Inject] private AttackerValue _attackable;
 
         private Action<IAttackCommand> _creationCallback;
@@ -26,7 +24,7 @@ namespace UserControlSystem
             if (target == null)
                 return;
             
-            _creationCallback?.Invoke(_context.Inject(new AttackCommand(target, _attackable.CurrentValue.AttackStrength)));
+            _creationCallback?.Invoke(new AttackCommand(target, _attackable.CurrentValue.AttackStrength));
             _creationCallback = null;
         }
 

@@ -10,9 +10,11 @@ namespace UserControlSystem.UI.Presenter
 {
     public sealed class CommandButtonsPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectableValue _selectable;
         [SerializeField] private CommandButtonsView _view;
+        
+        [Inject] private SelectableValue _selectable;
         [Inject] private CommandButtonsModel _model;
+        
         private ISelectable _currentSelectable;
         
         private void Start()

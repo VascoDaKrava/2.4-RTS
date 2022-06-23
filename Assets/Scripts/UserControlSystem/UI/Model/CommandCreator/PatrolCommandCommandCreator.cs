@@ -2,7 +2,6 @@
 using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 using UserControlSystem.CommandsRealization;
-using Utils;
 using Zenject;
 
 
@@ -10,7 +9,6 @@ namespace UserControlSystem
 {
     public sealed class PatrolCommandCommandCreator : CommandCreatorBase<IPatrolCommand>
     {
-        [Inject] private AssetsContext _context;
         [Inject] private SelectableValue _selectableValue;
 
         private Action<IPatrolCommand> _creationCallback;
@@ -20,7 +18,7 @@ namespace UserControlSystem
 
         private void ONNewValue(Vector3 groundClick)
         {
-            _creationCallback?.Invoke(_context.Inject(new PatrolCommand(_selectableValue.CurrentValue.Position, groundClick)));
+            _creationCallback?.Invoke(new PatrolCommand(_selectableValue.CurrentValue.Position, groundClick));
             _creationCallback = null;
         }
 

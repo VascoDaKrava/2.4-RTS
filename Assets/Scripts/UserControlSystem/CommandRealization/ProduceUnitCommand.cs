@@ -1,12 +1,22 @@
 ﻿using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
-using Utils;
+using Zenject;
+
 
 namespace UserControlSystem.CommandsRealization
 {
     public class ProduceUnitCommand : IProduceUnitCommand
     {
-        public GameObject UnitPrefab => _unitPrefab;
-        [InjectAsset("Human")] private GameObject _unitPrefab;
+        //[InjectAsset("Human")] private GameObject _unitPrefab;
+        [Inject] private GameObject _unitPrefab;
+
+        public GameObject UnitPrefab
+        {
+            get
+            {
+                Debug.Log("_unitPrefab = " + _unitPrefab);
+                return _unitPrefab;
+            }
+        }
     }
 }
