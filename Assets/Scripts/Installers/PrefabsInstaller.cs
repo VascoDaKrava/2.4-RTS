@@ -10,6 +10,7 @@ public sealed class PrefabsInstaller : MonoInstaller
     {
         Container
             .Bind<GameObject>()
+            .WithId(13)
             .FromInstance(_unitHuman)
             .AsTransient()
             ;

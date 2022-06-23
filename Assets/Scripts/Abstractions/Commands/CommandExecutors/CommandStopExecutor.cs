@@ -7,7 +7,7 @@ namespace Abstractions.Commands.CommandExecutors
 {
     public sealed class CommandStopExecutor : CommandExecutorBase<IStopCommand>
     {
-        [Inject] private GameObject _test;
+        [Inject(Id = 13)] private GameObject _test;
 
         public override void ExecuteSpecificCommand(IStopCommand command)
         {
