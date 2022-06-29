@@ -17,8 +17,5 @@ namespace UserControlSystem
             _container.Inject(unitCommand);
             creationCallback?.Invoke(unitCommand);
         }
-
-        //protected override void ClassSpecificCommandCreation(Action<IProduceUnitCommand> creationCallback)
-        //    => creationCallback?.Invoke(new ProduceUnitCommandHeir());
     }
 }

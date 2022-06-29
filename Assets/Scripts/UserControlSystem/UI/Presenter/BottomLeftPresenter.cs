@@ -19,10 +19,15 @@ namespace UserControlSystem
 
         private void Start()
         {
-            _selectedValue.OnValueChange += ONSelected;
+            _selectedValue.OnNewValue += ONSelected;
             ONSelected(_selectedValue.CurrentValue);
         }
-        
+
+        private void OnDestroy()
+        {
+            _selectedValue.OnNewValue -= ONSelected;
+        }
+
         private void ONSelected(ISelectable selected)
         {
             _selectedImage.enabled = selected != null;

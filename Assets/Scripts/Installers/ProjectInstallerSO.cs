@@ -1,3 +1,4 @@
+using Abstractions;
 using UnityEngine;
 using UserControlSystem;
 using Zenject;
@@ -13,9 +14,32 @@ public sealed class ProjectInstallerSO : ScriptableObjectInstaller<ProjectInstal
 
     public override void InstallBindings()
     {
-        Container.Bind<Vector3Value>().FromInstance(_vector3Value);
-        Container.Bind<DamagableValue>().FromInstance(_damagableValue);
-        Container.Bind<AttackerValue>().FromInstance(_attackableleValue);
-        Container.Bind<SelectableValue>().FromInstance(_selectableleValue);
+        Container
+            .Bind<Vector3Value>()
+            .FromInstance(_vector3Value);
+
+        Container
+            .Bind<DamagableValue>()
+            .FromInstance(_damagableValue);
+        
+        Container
+            .Bind<AttackerValue>()
+            .FromInstance(_attackableleValue);
+        
+        Container
+            .Bind<SelectableValue>()
+            .FromInstance(_selectableleValue);
+
+        Container
+            .Bind<IAwaitable<IDamagable>>()
+            .FromInstance(_damagableValue);
+
+        Container
+            .Bind<IAwaitable<IAttackable>>()
+            .FromInstance(_attackableleValue);
+
+        Container
+            .Bind<IAwaitable<Vector3>>()
+            .FromInstance(_vector3Value);
     }
 }
