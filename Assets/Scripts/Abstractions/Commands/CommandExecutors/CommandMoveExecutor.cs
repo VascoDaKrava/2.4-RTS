@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Abstractions.Commands.CommandExecutors
 {
-    public sealed partial class CommandMoveExecutor : CommandExecutorBase<IMoveCommand>
+    public sealed class CommandMoveExecutor : CommandExecutorBase<IMoveCommand>
     {
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private Animator _animator;
