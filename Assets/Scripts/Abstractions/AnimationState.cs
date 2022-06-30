@@ -1,8 +1,10 @@
-﻿namespace Abstractions
+﻿using UnityEngine;
+
+namespace Abstractions
 {
-        public enum AnimationState
-        {
-            Idle = 0,
-            Walk = 1,
-        }
+    public static class AnimationState
+    {
+        public static int Idle = Animator.StringToHash("Idle");
+        public static int Walk = Animator.StringToHash("Walk");
+    }
 }

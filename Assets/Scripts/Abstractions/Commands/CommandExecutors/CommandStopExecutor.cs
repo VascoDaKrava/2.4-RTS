@@ -1,14 +1,16 @@
 using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
-
+using System.Threading;
+using Zenject;
 
 namespace Abstractions.Commands.CommandExecutors
 {
     public sealed class CommandStopExecutor : CommandExecutorBase<IStopCommand>
     {
+        [Inject] private CancellationTokenSource _ctSource;
+
         public override void ExecuteSpecificCommand(IStopCommand command)
         {
-            Debug.Log($"{name} do {command.GetType()}");
+            _ctSource?.Cancel();
         }
     }
 }
