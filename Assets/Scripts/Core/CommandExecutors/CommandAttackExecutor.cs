@@ -1,8 +1,8 @@
+using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 
-
-namespace Abstractions.Commands.CommandExecutors
+namespace Core.CommandExecutors
 {
     public sealed class CommandAttackExecutor : CommandExecutorBase<IAttackCommand>
     {

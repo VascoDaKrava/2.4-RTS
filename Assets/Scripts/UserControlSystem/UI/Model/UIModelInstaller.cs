@@ -34,10 +34,10 @@ namespace UserControlSystem
                 .To<StopCommandCommandCreator>()
                 .AsTransient();
 
-            Container
-                .Bind<CancellationTokenSource>()
-                .FromInstance(new CancellationTokenSource())
-                .AsTransient();
+            //Container
+            //    .Bind<CancellationTokenSource>()
+            //    .FromInstance(new CancellationTokenSource())
+            //    .AsTransient();
 
             Container
                 .Bind<CommandButtonsModel>()
