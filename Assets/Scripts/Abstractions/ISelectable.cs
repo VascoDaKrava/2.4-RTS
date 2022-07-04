@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 namespace Abstractions
 {
     public interface ISelectable
@@ -8,5 +9,6 @@ namespace Abstractions
         float MaxHealth { get; }
         Sprite Icon { get; }
         bool Selected { get; set; }
+        Vector3 Position { get; set; }
     }
 }

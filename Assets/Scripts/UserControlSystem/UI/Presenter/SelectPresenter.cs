@@ -20,12 +20,12 @@ public sealed class SelectPresenter : MonoBehaviour
 
     void Start()
     {
-        _selectable.OnSelected += SelectHandler;
+        _selectable.OnValueChange += SelectHandler;
     }
 
     private void OnDestroy()
     {
-        _selectable.OnSelected -= SelectHandler;
+        _selectable.OnValueChange -= SelectHandler;
     }
     
     #endregion

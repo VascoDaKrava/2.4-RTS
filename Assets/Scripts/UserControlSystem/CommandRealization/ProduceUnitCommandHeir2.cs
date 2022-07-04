@@ -1,6 +1,6 @@
 ﻿namespace UserControlSystem.CommandsRealization
 {
-    public class ProduceUnitCommandHeir2 : ProduceUnitCommand
+    public class ProduceUnitCommandHeir2
     {
         
     }

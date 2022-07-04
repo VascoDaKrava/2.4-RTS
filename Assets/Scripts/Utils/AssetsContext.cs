@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace Utils
 {
-    [CreateAssetMenu(fileName = nameof(AssetsContext), menuName = "Strategy Game/" + nameof(AssetsContext), order = 0)]
+    [CreateAssetMenu(fileName = nameof(AssetsContext), menuName = "RTS/Utils/" + nameof(AssetsContext), order = 0)]
     public sealed class AssetsContext : ScriptableObject
     {
         [SerializeField] private Object[] _objects;
