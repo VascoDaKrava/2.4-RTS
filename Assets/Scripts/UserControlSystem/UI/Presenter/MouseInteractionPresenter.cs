@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using UserControlSystem;
 using Zenject;
 
-
 public sealed class MouseInteractionPresenter : MonoBehaviour
 {
     private const string GROUND_TAG = "Ground";

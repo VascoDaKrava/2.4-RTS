@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace Abstractions
 {
     public static class AsyncExtensions

@@ -3,7 +3,6 @@ using System;
 using UniRx;
 using UnityEngine;
 
-
 namespace UserControlSystem
 {
     public abstract class ScriptableBase<T> : ScriptableObject, IAwaitable<T>, IObservable<T>
