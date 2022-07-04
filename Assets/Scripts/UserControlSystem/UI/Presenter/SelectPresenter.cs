@@ -19,10 +19,7 @@ public sealed class SelectPresenter : MonoBehaviour
 
     #region UnityMethods
 
-    void Start()
-    {
-        _selectable.Subscribe(value => SelectHandler(value));
-    }
+    private void Start() => _selectable.Subscribe(value => SelectHandler(value));
 
     #endregion
 

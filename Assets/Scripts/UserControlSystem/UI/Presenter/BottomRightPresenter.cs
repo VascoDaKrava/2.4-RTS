@@ -26,8 +26,7 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandCancel += _view.UnblockAllInteractions;
             _model.OnCommandAccepted += _view.BlockInteractions;
 
-            //_selectable.OnNewValue += ONSelected;
-            ONSelected(_selectable.CurrentValue);
+            _selectable.Subscribe(OnSelected);
         }
 
         private void OnDestroy()
@@ -36,10 +35,9 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandSent -= _view.UnblockAllInteractions;
             _model.OnCommandCancel -= _view.UnblockAllInteractions;
             _model.OnCommandAccepted -= _view.BlockInteractions;
-            //_selectable.OnNewValue -= ONSelected;
         }
 
-        private void ONSelected(ISelectable selectable)
+        private void OnSelected(ISelectable selectable)
         {
             if (_currentSelectable == selectable)
             {
