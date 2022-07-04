@@ -32,7 +32,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
         
     private void LeftButtonClickHandler()
     {
-        if (!IsContinue(out var hits))
+        if (!CanContinue(out var hits))
         {
             return;
         }
@@ -46,7 +46,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
 
     private void RightButtonClickHandler()
     {
-        if (!IsContinue(out var hits))
+        if (!CanContinue(out var hits))
         {
             return;
         }
@@ -59,7 +59,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
         }
     }
 
-    private bool IsContinue(out RaycastHit[] hits)
+    private bool CanContinue(out RaycastHit[] hits)
     {
         hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
         

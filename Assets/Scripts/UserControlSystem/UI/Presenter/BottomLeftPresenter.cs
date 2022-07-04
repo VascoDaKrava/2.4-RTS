@@ -1,5 +1,6 @@
 ﻿using Abstractions;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,13 +20,13 @@ namespace UserControlSystem
 
         private void Start()
         {
-            _selectedValue.OnNewValue += ONSelected;
+            //_selectedValue.OnNewValue += ONSelected;
             ONSelected(_selectedValue.CurrentValue);
         }
 
         private void OnDestroy()
         {
-            _selectedValue.OnNewValue -= ONSelected;
+            //_selectedValue.OnNewValue -= ONSelected;
         }
 
         private void ONSelected(ISelectable selected)
