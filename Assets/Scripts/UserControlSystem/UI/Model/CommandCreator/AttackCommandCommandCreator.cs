@@ -1,45 +1,18 @@
-﻿using System;
-using Abstractions;
+﻿using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
 using UserControlSystem.CommandsRealization;
-using Utils;
 using Zenject;
 
 
 namespace UserControlSystem
 {
-    public sealed class AttackCommandCommandCreator : CommandCreatorBase<IAttackCommand>
+    public sealed class AttackCommandCommandCreator : CancellableCommandCreatorBase<IAttackCommand, IDamagable>
     {
-        [Inject] private AssetsContext _context;
-        [Inject] private AttackerValue _attackable;
+        [Inject] private AttackerValue _attaker;
 
-        private Action<IAttackCommand> _creationCallback;
-
-        [Inject]
-        private void Init(DamagableValue damagable)
+        protected override IAttackCommand CreateCommand(IDamagable target)
         {
-            damagable.OnValueChange += ONNewValue;
+            return new AttackCommand(target, _attaker.CurrentValue.AttackStrength);
         }
-
-        private void ONNewValue(IDamagable target)
-        {
-            if (target == null)
-                return;
-            
-            _creationCallback?.Invoke(_context.Inject(new AttackCommand(target, _attackable.CurrentValue.AttackStrength)));
-            _creationCallback = null;
-        }
-
-        protected override void ClassSpecificCommandCreation(Action<IAttackCommand> creationCallback)
-        {
-            _creationCallback = creationCallback;
-        }
-
-        public override void ProcessCancel()
-        {
-            base.ProcessCancel();
-            _creationCallback = null;
-        }
-
     }
 }

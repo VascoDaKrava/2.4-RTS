@@ -8,11 +8,13 @@ using Zenject;
 
 namespace UserControlSystem.UI.Presenter
 {
-    public sealed class CommandButtonsPresenter : MonoBehaviour
+    public sealed class BottomRightPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectableValue _selectable;
         [SerializeField] private CommandButtonsView _view;
+        
+        [Inject] private SelectableValue _selectable;
         [Inject] private CommandButtonsModel _model;
+        
         private ISelectable _currentSelectable;
         
         private void Start()
@@ -23,7 +25,7 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandCancel += _view.UnblockAllInteractions;
             _model.OnCommandAccepted += _view.BlockInteractions;
 
-            _selectable.OnValueChange += ONSelected;
+            _selectable.OnNewValue += ONSelected;
             ONSelected(_selectable.CurrentValue);
         }
 
@@ -33,7 +35,7 @@ namespace UserControlSystem.UI.Presenter
             _model.OnCommandSent -= _view.UnblockAllInteractions;
             _model.OnCommandCancel -= _view.UnblockAllInteractions;
             _model.OnCommandAccepted -= _view.BlockInteractions;
-            _selectable.OnValueChange -= ONSelected;
+            _selectable.OnNewValue -= ONSelected;
         }
 
         private void ONSelected(ISelectable selectable)

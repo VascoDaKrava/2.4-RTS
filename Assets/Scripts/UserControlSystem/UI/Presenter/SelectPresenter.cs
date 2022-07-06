@@ -1,6 +1,7 @@
 using Abstractions;
 using UnityEngine;
 using UserControlSystem;
+using Zenject;
 
 
 public sealed class SelectPresenter : MonoBehaviour
@@ -8,8 +9,7 @@ public sealed class SelectPresenter : MonoBehaviour
 
     #region Fields
 
-    [SerializeField]
-    private SelectableValue _selectable;
+    [Inject] private SelectableValue _selectable;
 
     private ISelectable _lastSelected;
 
@@ -20,14 +20,14 @@ public sealed class SelectPresenter : MonoBehaviour
 
     void Start()
     {
-        _selectable.OnValueChange += SelectHandler;
+        _selectable.OnNewValue += SelectHandler;
     }
 
     private void OnDestroy()
     {
-        _selectable.OnValueChange -= SelectHandler;
+        _selectable.OnNewValue -= SelectHandler;
     }
-    
+
     #endregion
 
 

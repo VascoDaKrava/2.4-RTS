@@ -3,6 +3,7 @@ using Abstractions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UserControlSystem;
+using Zenject;
 
 
 public sealed class MouseInteractionPresenter : MonoBehaviour
@@ -10,11 +11,12 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     private const string GROUND_TAG = "Ground";
 
     [SerializeField] private Camera _camera;
-    [SerializeField] private SelectableValue _selectedObject;
     [SerializeField] private EventSystem _eventSystem;
-    [SerializeField] private Vector3Value _groundPointClick;
-    [SerializeField] private DamagableValue _damagableValue;
-    [SerializeField] private AttackerValue _attackableValue;
+
+    [Inject] private SelectableValue _selectedObject;
+    [Inject] private Vector3Value _groundPointClick;
+    [Inject] private DamagableValue _damagableValue;
+    [Inject] private AttackerValue _attackableValue;
 
     private void Update()
     {
@@ -53,17 +55,19 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     {
         _selectedObject.SetValue(null);
         _selectedObject.SetValue(HitResult<ISelectable>(hits));
-        
+
         _attackableValue.SetValue(null);
         _attackableValue.SetValue(HitResult<IAttackable>(hits));
     }
 
     private void RightButtonClickHandler(RaycastHit[] hits)
     {
-        var groundPoint = hits.FirstOrDefault(hit => hit.transform.gameObject.CompareTag(GROUND_TAG)).point;
-        _groundPointClick.SetValue(groundPoint);
+        _groundPointClick.SetValue(hits.FirstOrDefault(hit => hit.transform.gameObject.CompareTag(GROUND_TAG)).point);
 
-        _damagableValue.SetValue(HitResult<IDamagable>(hits));
+        if (HitResult<IDamagable>(hits) != default)
+        {
+            _damagableValue.SetValue(HitResult<IDamagable>(hits));
+        }
     }
 
     private T HitResult<T>(RaycastHit[] hits)
