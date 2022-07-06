@@ -1,22 +1,24 @@
 ﻿using Abstractions;
-
+using System;
+using UniRx;
 
 namespace UserControlSystem
 {
     public sealed class NewValueNotifier<TAwaited> : AwaiterBase<TAwaited>
     {
-        private readonly ScriptableBase<TAwaited> _scriptableValue;
+        private IDisposable _stream;
 
         public NewValueNotifier(ScriptableBase<TAwaited> scriptableValue)
         {
-            _scriptableValue = scriptableValue;
-            _scriptableValue.OnNewValue += ONNewValue;
+            _stream = scriptableValue
+                .Skip(1)
+                .Subscribe(value => onCatch(value));
         }
 
-        private void ONNewValue(TAwaited obj)
+        private void onCatch(TAwaited value)
         {
-            _scriptableValue.OnNewValue -= ONNewValue;
-            OnFinish(obj);
+            OnFinish(value);
+            _stream.Dispose();
         }
     }
 }

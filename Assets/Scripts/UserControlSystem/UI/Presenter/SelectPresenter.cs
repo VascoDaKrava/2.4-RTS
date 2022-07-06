@@ -1,4 +1,5 @@
 using Abstractions;
+using UniRx;
 using UnityEngine;
 using UserControlSystem;
 using Zenject;
@@ -18,15 +19,7 @@ public sealed class SelectPresenter : MonoBehaviour
 
     #region UnityMethods
 
-    void Start()
-    {
-        _selectable.OnNewValue += SelectHandler;
-    }
-
-    private void OnDestroy()
-    {
-        _selectable.OnNewValue -= SelectHandler;
-    }
+    private void Start() => _selectable.Subscribe(value => SelectHandler(value));
 
     #endregion
 

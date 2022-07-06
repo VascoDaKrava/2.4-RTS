@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Abstractions;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UserControlSystem;
 using Zenject;
-
 
 public sealed class MouseInteractionPresenter : MonoBehaviour
 {
@@ -18,41 +18,24 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     [Inject] private DamagableValue _damagableValue;
     [Inject] private AttackerValue _attackableValue;
 
-    private void Update()
+    private void Start()
     {
-        if (!Input.GetMouseButtonUp(0) &&
-            !Input.GetMouseButtonUp(1)
-            )
-        {
-            return;
-        }
+        Observable.EveryUpdate()
+            .Where(_ => Input.GetMouseButtonUp(0))
+            .Subscribe(_ => LeftButtonClickHandler());
 
-        if (_eventSystem.IsPointerOverGameObject())
-        {
-            return;
-        }
-
-        var hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
-
-        if (hits.Length == 0)
-        {
-            return;
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            LeftButtonClickHandler(hits);
-        }
-
-        if (Input.GetMouseButtonUp(1))
-        {
-            RightButtonClickHandler(hits);
-        }
-
+        Observable.EveryUpdate()
+            .Where(_ => Input.GetMouseButtonUp(1))
+            .Subscribe(_ => RightButtonClickHandler());
     }
-
-    private void LeftButtonClickHandler(RaycastHit[] hits)
+        
+    private void LeftButtonClickHandler()
     {
+        if (!CanContinue(out var hits))
+        {
+            return;
+        }
+
         _selectedObject.SetValue(null);
         _selectedObject.SetValue(HitResult<ISelectable>(hits));
 
@@ -60,14 +43,36 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
         _attackableValue.SetValue(HitResult<IAttackable>(hits));
     }
 
-    private void RightButtonClickHandler(RaycastHit[] hits)
+    private void RightButtonClickHandler()
     {
+        if (!CanContinue(out var hits))
+        {
+            return;
+        }
+
         _groundPointClick.SetValue(hits.FirstOrDefault(hit => hit.transform.gameObject.CompareTag(GROUND_TAG)).point);
 
         if (HitResult<IDamagable>(hits) != default)
         {
             _damagableValue.SetValue(HitResult<IDamagable>(hits));
         }
+    }
+
+    private bool CanContinue(out RaycastHit[] hits)
+    {
+        hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
+        
+        if (hits.Length == 0)
+        {
+            return false;
+        }
+
+        if (_eventSystem.IsPointerOverGameObject())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private T HitResult<T>(RaycastHit[] hits)

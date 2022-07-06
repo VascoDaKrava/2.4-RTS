@@ -1,24 +1,24 @@
 using Abstractions;
 using System;
+using UniRx;
 using UnityEngine;
-
 
 namespace UserControlSystem
 {
-    public abstract partial class ScriptableBase<T> : ScriptableObject, IAwaitable<T>
+    public abstract class ScriptableBase<T> : ScriptableObject, IAwaitable<T>, IObservable<T>
     {
-        public T CurrentValue { get; private set; }
-        public Action<T> OnNewValue;
+        private readonly ReactiveProperty<T> _rValue = new();
 
-        public void SetValue(T value)
+        public T CurrentValue
         {
-            CurrentValue = value;
-            OnNewValue?.Invoke(value);
+            get => _rValue.Value;
+            private set => _rValue.Value = value;
         }
 
-        public IAwaiter<T> GetAwaiter()
-        {
-            return new NewValueNotifier<T>(this);
-        }
+        public void SetValue(T value) => CurrentValue = value;
+
+        public IAwaiter<T> GetAwaiter() => new NewValueNotifier<T>(this);
+
+        public IDisposable Subscribe(IObserver<T> observer) => _rValue.Subscribe(observer);
     }
 }
