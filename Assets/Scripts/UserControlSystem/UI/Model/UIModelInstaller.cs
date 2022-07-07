@@ -1,5 +1,4 @@
 ﻿using Abstractions.Commands.CommandsInterfaces;
-using System.Threading;
 using Zenject;
 
 
@@ -33,11 +32,6 @@ namespace UserControlSystem
                 .Bind<CommandCreatorBase<IStopCommand>>()
                 .To<StopCommandCommandCreator>()
                 .AsTransient();
-
-            //Container
-            //    .Bind<CancellationTokenSource>()
-            //    .FromInstance(new CancellationTokenSource())
-            //    .AsTransient();
 
             Container
                 .Bind<CommandButtonsModel>()

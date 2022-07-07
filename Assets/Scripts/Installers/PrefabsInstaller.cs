@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +11,23 @@ public sealed class PrefabsInstaller : MonoInstaller
     {
         Container
             .Bind<GameObject>()
-            .WithId(13)
+            .WithId("UnitHuman")
             .FromInstance(_unitHuman)
-            .AsTransient()
-            ;
+            .AsTransient();
+
+        Container
+            .Bind<float>()
+            .WithId("UnitHuman")
+            .FromInstance(_unitHuman.GetComponent<Human>().ProductionTime);
+
+        Container
+            .Bind<string>()
+            .WithId("UnitHuman")
+            .FromInstance(_unitHuman.GetComponent<Human>().UnitName);
+
+        Container
+            .Bind<Sprite>()
+            .WithId("UnitHuman")
+            .FromInstance(_unitHuman.GetComponent<Human>().Icon);
     }
 }

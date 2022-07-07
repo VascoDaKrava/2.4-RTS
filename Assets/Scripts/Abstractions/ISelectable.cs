@@ -3,11 +3,8 @@
 
 namespace Abstractions
 {
-    public interface ISelectable
+    public interface ISelectable : IIconHolder, IHealthHolder
     {
-        float Health { get; }
-        float MaxHealth { get; }
-        Sprite Icon { get; }
         bool Selected { get; set; }
         Vector3 Position { get; set; }
     }
