@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Abstractions;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Abstractions
+namespace Core
 {
     public class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>
     {
