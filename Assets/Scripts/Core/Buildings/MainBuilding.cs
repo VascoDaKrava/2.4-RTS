@@ -1,16 +1,10 @@
 using Abstractions;
-using Abstractions.Commands;
-using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
-
 
 namespace Core
 {
-    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable, IDamagable
+    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderHealth
     {
-
-        [SerializeField] private Transform _unitsParent;
-
         [SerializeField] private float _maxHealth = 1000;
         [SerializeField] private Sprite _icon;
 
@@ -33,12 +27,6 @@ namespace Core
             get => transform.position;
             set => transform.position = value;
         }
-
-        public override void ExecuteSpecificCommand(IProduceUnitCommand command)
-            => Instantiate(command.UnitPrefab,
-                new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)),
-                Quaternion.identity,
-                _unitsParent);
 
         public void GetDamage(float value)
         {

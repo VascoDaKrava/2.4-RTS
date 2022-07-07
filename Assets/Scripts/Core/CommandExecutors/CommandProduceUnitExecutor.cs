@@ -11,8 +11,9 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
     [SerializeField] private Transform _unitsParent;
     [SerializeField] private int _maximumUnitsInQueue = 5;
 
-    public IReadOnlyReactiveCollection<IUnitProductionTask> Queue => _queue;
     private ReactiveCollection<IUnitProductionTask> _queue = new ReactiveCollection<IUnitProductionTask>();
+
+    public IReadOnlyReactiveCollection<IUnitProductionTask> Queue => _queue;
 
     private void Update()
     {
@@ -43,9 +44,11 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         _queue.RemoveAt(_queue.Count - 1);
     }
 
-    public override void ExecuteSpecificCommand(IProduceUnitCommand
-    command)
+    public override void ExecuteSpecificCommand(IProduceUnitCommand command)
     {
-        _queue.Add(new UnitProductionTask(command.ProductionTime, command.Icon, command.UnitPrefab, command.Name));
+        if (_queue.Count < _maximumUnitsInQueue)
+        {
+            _queue.Add(new UnitProductionTask(command.ProductionTime, command.Icon, command.UnitPrefab, command.Name));
+        }
     }
 }

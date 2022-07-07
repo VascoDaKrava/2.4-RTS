@@ -14,7 +14,6 @@ namespace UserControlSystem.UI.Presenter
     {
         [SerializeField] private CommandButtonsView _view;
         
-        //[Inject] private SelectableValue _selectable;
         [Inject] private IObservable<ISelectable> _selectable;
         [Inject] private CommandButtonsModel _model;
         

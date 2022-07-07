@@ -1386,7 +1386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e01563d37a23f4e9bae517fb3e14dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitsParent: {fileID: 0}
   _maxHealth: 1000
   _icon: {fileID: 21300000, guid: 543a96b5c541f1f4cbd133975b525636, type: 3}
   _selectionMarker: {fileID: 1359309705338714173}
@@ -1403,7 +1402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitsParent: {fileID: 0}
-  _maximumUnitsInQueue: 6
+  _maximumUnitsInQueue: 5
 --- !u!1 &7754168565320514746
 GameObject:
   m_ObjectHideFlags: 0
