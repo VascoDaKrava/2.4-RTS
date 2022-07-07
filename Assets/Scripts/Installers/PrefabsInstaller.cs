@@ -23,7 +23,7 @@ public sealed class PrefabsInstaller : MonoInstaller
         Container
             .Bind<string>()
             .WithId("UnitHuman")
-            .FromInstance(_unitHuman.GetComponent<Human>().UnitName);
+            .FromInstance(_unitHuman.GetComponent<Human>().Name);
 
         Container
             .Bind<Sprite>()

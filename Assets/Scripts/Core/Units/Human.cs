@@ -23,6 +23,6 @@ namespace Core
 
         public float ProductionTime => _productionTime;
         public GameObject UnitPrefab => gameObject;
-        public string UnitName => _unitName;
+        public string Name => _unitName;
     }
 }

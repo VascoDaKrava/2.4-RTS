@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Abstractions
 {
-    public interface IIconHolder
+    public interface IHolderIcon
     {
         Sprite Icon { get; }
     }
