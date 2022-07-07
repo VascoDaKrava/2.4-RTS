@@ -2,32 +2,34 @@ using Core;
 using UnityEngine;
 using Zenject;
 
-
-public sealed class PrefabsInstaller : MonoInstaller
+namespace Installers
 {
-    [SerializeField] private GameObject _unitHuman;
-
-    public override void InstallBindings()
+    public sealed class PrefabsInstaller : MonoInstaller
     {
-        Container
-            .Bind<GameObject>()
-            .WithId("UnitHuman")
-            .FromInstance(_unitHuman)
-            .AsTransient();
+        [SerializeField] private GameObject _unitHuman;
 
-        Container
-            .Bind<float>()
-            .WithId("UnitHuman")
-            .FromInstance(_unitHuman.GetComponent<Human>().ProductionTime);
+        public override void InstallBindings()
+        {
+            Container
+                .Bind<GameObject>()
+                .WithId("UnitHuman")
+                .FromInstance(_unitHuman)
+                .AsTransient();
 
-        Container
-            .Bind<string>()
-            .WithId("UnitHuman")
-            .FromInstance(_unitHuman.GetComponent<Human>().Name);
+            Container
+                .Bind<float>()
+                .WithId("UnitHuman")
+                .FromInstance(_unitHuman.GetComponent<Human>().ProductionTime);
 
-        Container
-            .Bind<Sprite>()
-            .WithId("UnitHuman")
-            .FromInstance(_unitHuman.GetComponent<Human>().Icon);
+            Container
+                .Bind<string>()
+                .WithId("UnitHuman")
+                .FromInstance(_unitHuman.GetComponent<Human>().Name);
+
+            Container
+                .Bind<Sprite>()
+                .WithId("UnitHuman")
+                .FromInstance(_unitHuman.GetComponent<Human>().Icon);
+        }
     }
 }

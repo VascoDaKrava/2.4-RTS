@@ -1,11 +1,15 @@
 ﻿using Abstractions.Commands.CommandsInterfaces;
+using UnityEngine;
+using UserControlSystem;
+using UserControlSystem.UI.Model;
 using Zenject;
 
-
-namespace UserControlSystem
+namespace Installers
 {
     public class UIModelInstaller : MonoInstaller
     {
+        [SerializeField] private Sprite _humanUnitIcon;
+
         public override void InstallBindings()
         {
             Container
@@ -36,6 +40,15 @@ namespace UserControlSystem
             Container
                 .Bind<CommandButtonsModel>()
                 .AsTransient();
+
+            //Container
+            //    .Bind<Sprite>()
+            //    .WithId("UnitHuman")
+            //    .FromInstance(_humanUnitIcon);
+
+            Container
+                .Bind<UnitProducerModel>()
+                .AsSingle();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Abstractions;
 using Abstractions.Commands;
 using UniRx;
@@ -13,7 +14,8 @@ namespace UserControlSystem.UI.Presenter
     {
         [SerializeField] private CommandButtonsView _view;
         
-        [Inject] private SelectableValue _selectable;
+        //[Inject] private SelectableValue _selectable;
+        [Inject] private IObservable<ISelectable> _selectable;
         [Inject] private CommandButtonsModel _model;
         
         private ISelectable _currentSelectable;
