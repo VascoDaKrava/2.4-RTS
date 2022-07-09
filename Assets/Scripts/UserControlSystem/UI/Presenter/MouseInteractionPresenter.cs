@@ -28,7 +28,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
             .Where(_ => Input.GetMouseButtonUp(1))
             .Subscribe(_ => RightButtonClickHandler());
     }
-        
+
     private void LeftButtonClickHandler()
     {
         if (!CanContinue(out var hits))
@@ -55,13 +55,14 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
         if (HitResult<IDamagable>(hits) != default)
         {
             _damagableValue.SetValue(HitResult<IDamagable>(hits));
+            _damagableValue.SetValue(null);
         }
     }
 
     private bool CanContinue(out RaycastHit[] hits)
     {
         hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
-        
+
         if (hits.Length == 0)
         {
             return false;

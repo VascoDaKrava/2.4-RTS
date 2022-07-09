@@ -4,7 +4,6 @@ using Abstractions.Commands.CommandsInterfaces;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
-using Zenject;
 using AnimationState = Abstractions.AnimationState;
 
 namespace Core.CommandExecutors
@@ -14,7 +13,6 @@ namespace Core.CommandExecutors
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private Animator _animator;
         [SerializeField] private UnitMovementStop _stop;
-        //[Inject] 
         private UnitCTSource _unitCTSource;
 
         private void Start()
