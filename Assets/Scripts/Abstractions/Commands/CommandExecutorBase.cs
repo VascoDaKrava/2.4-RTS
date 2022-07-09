@@ -6,7 +6,6 @@ namespace Abstractions.Commands
     {
         public void ExecuteCommand(object command)
         {
-            Debug.Log($"Catch {command}");
             ExecuteSpecificCommand((T)command);
         }
 
