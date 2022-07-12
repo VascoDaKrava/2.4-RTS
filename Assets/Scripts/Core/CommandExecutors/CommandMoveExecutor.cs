@@ -22,7 +22,7 @@ namespace Core.CommandExecutors
 
         public override async void ExecuteSpecificCommand(IMoveCommand command)
         {
-            _agent.destination = command.Target;
+            _agent.destination = command.Targets[0];
             _animator.SetTrigger(AnimationState.Walk);
             _unitCTSource.CTSource = new CancellationTokenSource();
             try

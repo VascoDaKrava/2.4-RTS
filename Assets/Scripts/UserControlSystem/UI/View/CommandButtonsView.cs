@@ -26,16 +26,16 @@ namespace UserControlSystem.UI.View
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IAttackCommand>), _attackButton);
-            
+
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IMoveCommand>), _moveButton);
-            
+
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IPatrolCommand>), _patrolButton);
-            
+
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IStopCommand>), _stopButton);
-            
+
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton);
         }
@@ -80,8 +80,7 @@ namespace UserControlSystem.UI.View
         {
             foreach (var kvp in _buttonsByExecutorType)
             {
-                kvp.Value
-                    .GetComponent<Button>().onClick.RemoveAllListeners();
+                kvp.Value.GetComponent<Button>().onClick.RemoveAllListeners();
                 kvp.Value.SetActive(false);
             }
         }

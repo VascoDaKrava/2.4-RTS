@@ -61,8 +61,9 @@ namespace UserControlSystem
                 return;
             }
 
-            Debug.Log($"Execute : {_com.Peek()}");
-            OnFinish(_com.Dequeue());
+            //Debug.Log($"Execute : {_com.Peek()}");
+            //OnFinish(_com.Peek());
+            OnFinish(_com.ToArray());
             _streamClick.Dispose();
             _streamFinishInput.Dispose();
             _streamStillInput.Dispose();

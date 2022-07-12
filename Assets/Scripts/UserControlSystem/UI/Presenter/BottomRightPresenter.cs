@@ -13,12 +13,12 @@ namespace UserControlSystem.UI.Presenter
     public sealed class BottomRightPresenter : MonoBehaviour
     {
         [SerializeField] private CommandButtonsView _view;
-        
+
         [Inject] private IObservable<ISelectable> _selectable;
         [Inject] private CommandButtonsModel _model;
-        
+
         private ISelectable _currentSelectable;
-        
+
         private void Start()
         {
             _view.Clear();

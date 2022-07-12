@@ -12,7 +12,6 @@ namespace UserControlSystem
     {
         [Inject] private IAwaitable<TArgument> _awaitableArgument;
 
-        //[Inject] private CancellationTokenSource _ctSource;
         private CancellationTokenSource _ctSource;
 
         protected override async void ClassSpecificCommandCreation(Action<TCommand> creationCallback)
@@ -28,7 +27,7 @@ namespace UserControlSystem
             }
         }
 
-        protected abstract TCommand CreateCommand(TArgument argument);
+        protected abstract TCommand CreateCommand(TArgument[] argument);
 
         public override void ProcessCancel()
         {

@@ -21,10 +21,9 @@ namespace Abstractions
             return await originalTask;
         }
 
-        public static Task<TResult> AsTask<TResult>(this IAwaitable<TResult> awaitable)
-            => Task.Run(async () => await awaitable);
+        public static Task<TResult[]> AsTask<TResult>(this IAwaitable<TResult> awaitable) => Task.Run(async () => await awaitable);
 
-        public static async Task<TResult> WithCancellation<TResult>(this IAwaitable<TResult> originalTask, CancellationToken ct) =>
+        public static async Task<TResult[]> WithCancellation<TResult>(this IAwaitable<TResult> originalTask, CancellationToken ct) =>
             await WithCancellation(originalTask.AsTask(), ct);
 
     }
