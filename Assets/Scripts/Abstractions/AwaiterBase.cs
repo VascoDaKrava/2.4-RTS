@@ -4,14 +4,12 @@ namespace Abstractions
 {
     public abstract class AwaiterBase<T> : IAwaiter<T>
     {
-        //private T _result;
         private T[] _results;
         private Action _callback;
         private bool _isCompleted;
 
         public bool IsCompleted => _isCompleted;
 
-        //public T GetResult() => _result;
         public T[] GetResult() => _results;
 
         protected void OnFinish(T result)

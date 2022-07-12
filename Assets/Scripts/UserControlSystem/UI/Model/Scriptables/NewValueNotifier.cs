@@ -19,7 +19,11 @@ namespace UserControlSystem
             _streamFinishInput = Observable
                 .EveryUpdate()
                 .Where(_ => Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
-                .Subscribe(_ => InputFinish());
+                .Subscribe(_ =>
+                {
+                    _shiftStillPress = false;
+                    InputFinish();
+                });
 
             _streamStillInput = Observable
                 .EveryUpdate()
@@ -50,23 +54,15 @@ namespace UserControlSystem
         {
             Debug.Log("Input finish");
 
-            foreach (var item in _com)
-            {
-                Debug.Log($"Point: {item}");
-            }
-
             if (_com.Count == 0)
             {
                 Debug.Log("Queue is empty");
                 return;
             }
-
-            //Debug.Log($"Execute : {_com.Peek()}");
-            //OnFinish(_com.Peek());
-            OnFinish(_com.ToArray());
             _streamClick.Dispose();
             _streamFinishInput.Dispose();
             _streamStillInput.Dispose();
+            OnFinish(_com.ToArray());
         }
     }
 }
