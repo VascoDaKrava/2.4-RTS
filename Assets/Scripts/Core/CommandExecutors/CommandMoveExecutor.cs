@@ -14,26 +14,21 @@ namespace Core.CommandExecutors
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private Animator _animator;
         [SerializeField] private UnitMovementStop _stop;
-        private UnitCTSource _unitCTSource;
-        private ReactiveCollection<Vector3> _queue;
-
-        private void Start()
-        {
-            _unitCTSource = GetComponent<UnitCTSource>();
-        }
+        [SerializeField] private UnitCTSource _unitCTSource;
+        private ReactiveCollection<Vector3> _rqueueMovePoints;
 
         public override void ExecuteSpecificCommand(IMoveCommand command)
         {
-            _queue = command.Targets.ToReactiveCollection();
-            _queue.ObserveCountChanged().Subscribe(count => OnObserveCountChanged(count)).AddTo(this);
-            DoMove(_queue[0]);
+            _rqueueMovePoints = command.Targets.ToReactiveCollection();
+            _rqueueMovePoints.ObserveCountChanged().Subscribe(count => OnObserveCountChanged(count)).AddTo(this);
+            DoMove(_rqueueMovePoints[0]);
         }
 
         private void OnObserveCountChanged(int count)
         {
             if (count > 0)
             {
-                DoMove(_queue[0]);
+                DoMove(_rqueueMovePoints[0]);
             }
         }
 
@@ -51,15 +46,15 @@ namespace Core.CommandExecutors
             {
                 _agent.isStopped = true;
                 _agent.ResetPath();
-                _queue.Clear();
+                _rqueueMovePoints.Clear();
             }
 
             _unitCTSource.CTSource = null;
             _animator.SetTrigger(AnimationState.Idle);
 
-            if (_queue.Count > 0)
+            if (_rqueueMovePoints.Count > 0)
             {
-                _queue.RemoveAt(0);
+                _rqueueMovePoints.RemoveAt(0);
             }
         }
     }

@@ -38,13 +38,13 @@ namespace Installers
                 .AsTransient();
 
             Container
-                .Bind<CommandButtonsModel>()
+                .Bind<CommandCreatorBase<ISetRallyPointCommand>>()
+                .To<SetRallyPointCommandCreator>()
                 .AsTransient();
 
-            //Container
-            //    .Bind<Sprite>()
-            //    .WithId("UnitHuman")
-            //    .FromInstance(_humanUnitIcon);
+            Container
+                .Bind<CommandButtonsModel>()
+                .AsTransient();
 
             Container
                 .Bind<UnitProducerModel>()

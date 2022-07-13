@@ -156,6 +156,8 @@ MonoBehaviour:
   _health: 75
   _icon: {fileID: 21300000, guid: 37737d84a8cac1249b3acd4672c1f91a, type: 3}
   _selectionMarker: {fileID: 2807613788339555756}
+  _productionTime: 3
+  _unitName: Human
 --- !u!114 &5510461382220166497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +209,7 @@ MonoBehaviour:
   _agent: {fileID: 792211592931503929}
   _animator: {fileID: 3823998404208972763}
   _stop: {fileID: 947988383344653229}
+  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!114 &5433771276320125727
 MonoBehaviour:
   m_ObjectHideFlags: 0

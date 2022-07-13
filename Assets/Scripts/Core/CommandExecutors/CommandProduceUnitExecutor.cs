@@ -2,14 +2,16 @@
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Core;
+using Core.CommandExecutors;
 using UniRx;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UserControlSystem.CommandsRealization;
 
 public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand>, IUnitProducer
 {
     [SerializeField] private Transform _unitsParent;
     [SerializeField] private int _maximumUnitsInQueue = 5;
+    [SerializeField] private Transform _unitCreationPosition;
 
     private ReactiveCollection<IUnitProductionTask> _queue = new ReactiveCollection<IUnitProductionTask>();
 
@@ -28,7 +30,13 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         if (innerTask.TimeLeft <= 0)
         {
             removeTaskAtIndex(0);
-            Instantiate(innerTask.UnitPrefab, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity, _unitsParent);
+            var unit = Instantiate(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
+            unit.GetComponent<CommandMoveExecutor>()
+                .ExecuteCommand(
+                new MoveCommand(
+                    new Vector3[] { gameObject.GetComponent<IHolderRallyPoint>().RallyPoint }
+                    )
+                );
         }
     }
 
