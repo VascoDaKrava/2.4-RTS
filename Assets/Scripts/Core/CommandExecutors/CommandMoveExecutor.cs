@@ -44,8 +44,6 @@ namespace Core.CommandExecutors
             }
             catch
             {
-                _agent.isStopped = true;
-                _agent.ResetPath();
                 _rqueueMovePoints.Clear();
             }
 
