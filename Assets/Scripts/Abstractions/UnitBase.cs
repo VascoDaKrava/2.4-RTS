@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Abstractions
 {
-    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttackable
+    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttackable, IDamagable, IHolderNavMeshAgent, IHolderAnimator
     {
         public abstract GameObject SelectionMarker { get; }
-        
+
         public abstract float Health { get; }
 
         public abstract float MaxHealth { get; }
@@ -21,5 +22,11 @@ namespace Abstractions
         public abstract float AttackStrength { get; }
 
         public Vector3 Position { get => transform.position; set => transform.position = value; }
+
+        public abstract NavMeshAgent NavMeshAgent { get; }
+
+        public abstract Animator Animator { get; }
+
+        public abstract void GetDamage(float value);
     }
 }

@@ -9,6 +9,7 @@ using UserControlSystem.CommandsRealization;
 
 public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand>, IUnitProducer
 {
+    [SerializeField] private FactionMember _faction;
     [SerializeField] private Transform _unitsParent;
     [SerializeField] private int _maximumUnitsInQueue = 5;
     [SerializeField] private Transform _unitCreationPosition;
@@ -30,13 +31,17 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         if (innerTask.TimeLeft <= 0)
         {
             removeTaskAtIndex(0);
+            
             var unit = Instantiate(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
+            
             unit.GetComponent<CommandMoveExecutor>()
                 .ExecuteCommand(
                 new MoveCommand(
                     new Vector3[] { gameObject.GetComponent<IHolderRallyPoint>().RallyPoint }
                     )
                 );
+
+            unit.GetComponent<FactionMember>().SetFaction(_faction.FactionID);
         }
     }
 

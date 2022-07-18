@@ -5,7 +5,6 @@ using System.Threading;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
-using AnimationState = Abstractions.AnimationState;
 
 namespace Core.CommandExecutors
 {
@@ -35,7 +34,7 @@ namespace Core.CommandExecutors
         private async void DoMove(Vector3 target)
         {
             _agent.destination = target;
-            _animator.SetTrigger(AnimationState.Walk);
+            _animator.SetTrigger(AnimatorParams.Walk);
             _unitCTSource.CTSource = new CancellationTokenSource();
 
             try
@@ -48,7 +47,7 @@ namespace Core.CommandExecutors
             }
 
             _unitCTSource.CTSource = null;
-            _animator.SetTrigger(AnimationState.Idle);
+            _animator.SetTrigger(AnimatorParams.Idle);
 
             if (_rqueueMovePoints.Count > 0)
             {

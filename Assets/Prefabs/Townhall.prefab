@@ -1414,6 +1414,7 @@ GameObject:
   - component: {fileID: 1312524274967281373}
   - component: {fileID: 387556757896343895}
   - component: {fileID: 2211473186691560619}
+  - component: {fileID: 5147593275515141938}
   m_Layer: 0
   m_Name: Townhall
   m_TagString: Untagged
@@ -1469,6 +1470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0597dc75b79c5e04da08c98cfba3c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _faction: {fileID: 5147593275515141938}
   _unitsParent: {fileID: 0}
   _maximumUnitsInQueue: 5
   _unitCreationPosition: {fileID: 6142120263834589294}
@@ -1484,6 +1486,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa80407bf44f0464cbaa6861b5de364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5147593275515141938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868151347601000063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bd611b6d51b8c49828a297940f4404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _factionID: 0
 --- !u!1 &7754168565320514746
 GameObject:
   m_ObjectHideFlags: 0

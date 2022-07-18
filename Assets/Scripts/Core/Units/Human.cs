@@ -1,17 +1,27 @@
 using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
+using Core.CommandExecutors;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
+using UserControlSystem.CommandsRealization;
 
 namespace Core
 {
-    public sealed class Human : UnitBase, IProduceUnitCommand
+    public sealed class Human : UnitBase, IProduceUnitCommand, IHolderUnitCTSource
     {
+        [SerializeField] private float _timeForDestroyAfterDie = 3.0f;
         [SerializeField] private float _attackStrength = 25.0f;
         [SerializeField] private float _maxHealth = 100.0f;
         [SerializeField] private float _health = 100.0f;
         [SerializeField] private Sprite _icon;
         [SerializeField] private GameObject _selectionMarker;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private CommandStopExecutor _commandStopExecutor;
+        [SerializeField] private NavMeshAgent _navMeshAgent;
+        [SerializeField] private UnitCTSource _unitCTSource;
 
+        [Space]
         [SerializeField] private float _productionTime = 3.0f;
         [SerializeField] private string _unitName = "Human";
 
@@ -24,5 +34,37 @@ namespace Core
         public float ProductionTime => _productionTime;
         public GameObject UnitPrefab => gameObject;
         public string Name => _unitName;
+
+        public UnitCTSource UnitCTSource => _unitCTSource;
+
+        public override NavMeshAgent NavMeshAgent => _navMeshAgent;
+
+        public override Animator Animator => _animator;
+
+        public override void GetDamage(float value)
+        {
+            _health -= value;
+            if (_health <= 0)
+            {
+                DieAsync();
+            }
+        }
+
+        private async void DieAsync()
+        {
+            _commandStopExecutor.ExecuteSpecificCommand(new StopCommand());
+            _animator.SetTrigger(AnimatorParams.Die);
+
+            var animationInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            var startHash = animationInfo.shortNameHash;
+
+            while (animationInfo.shortNameHash == AnimatorParams.DieStateInt
+                || _animator.GetCurrentAnimatorStateInfo(0).shortNameHash == startHash)
+            {
+                await Task.Yield();
+            }
+
+            Destroy(gameObject, _timeForDestroyAfterDie);
+        }
     }
 }
