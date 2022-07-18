@@ -1,22 +1,18 @@
 using Abstractions;
-using Abstractions.Commands;
-using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
-
 
 namespace Core
 {
-    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable, IDamagable
+    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderHealth, IHolderRallyPoint
     {
-
-        [SerializeField] private Transform _unitsParent;
+        [SerializeField] private Sprite _icon;
 
         [SerializeField] private float _maxHealth = 1000;
-        [SerializeField] private Sprite _icon;
+        [SerializeField] private float _health = 1000;
 
         [SerializeField] private GameObject _selectionMarker;
 
-        private float _health = 1000;
+        [SerializeField] private Transform _rallyPoint;
 
         public float Health => _health;
         public float MaxHealth => _maxHealth;
@@ -25,7 +21,11 @@ namespace Core
         public bool Selected
         {
             get => _selectionMarker.activeSelf;
-            set => _selectionMarker.SetActive(value);
+            set
+            {
+                _selectionMarker.SetActive(value);
+                _rallyPoint.gameObject.SetActive(value);
+            }
         }
 
         public Vector3 Position
@@ -34,11 +34,7 @@ namespace Core
             set => transform.position = value;
         }
 
-        public override void ExecuteSpecificCommand(IProduceUnitCommand command)
-            => Instantiate(command.UnitPrefab,
-                new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)),
-                Quaternion.identity,
-                _unitsParent);
+        public Vector3 RallyPoint { get => _rallyPoint.position; set => _rallyPoint.position = value; }
 
         public void GetDamage(float value)
         {

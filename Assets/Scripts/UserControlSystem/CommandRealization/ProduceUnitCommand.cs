@@ -7,9 +7,11 @@ namespace UserControlSystem.CommandsRealization
 {
     public class ProduceUnitCommand : IProduceUnitCommand
     {
-        [Inject(Id = 13)] private GameObject _unitPrefab;
-
+        [Inject(Id = "UnitHuman")] private GameObject _unitPrefab;
+        [Inject(Id = "UnitHuman")] public string Name { get; }
+        [Inject(Id = "UnitHuman")] public Sprite Icon { get; }
+        [Inject(Id = "UnitHuman")] public float ProductionTime { get; }
+        
         public GameObject UnitPrefab => _unitPrefab;
-
     }
 }

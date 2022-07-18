@@ -1,12 +1,15 @@
 ﻿using Abstractions.Commands.CommandsInterfaces;
-using System.Threading;
+using UnityEngine;
+using UserControlSystem;
+using UserControlSystem.UI.Model;
 using Zenject;
 
-
-namespace UserControlSystem
+namespace Installers
 {
     public class UIModelInstaller : MonoInstaller
     {
+        [SerializeField] private Sprite _humanUnitIcon;
+
         public override void InstallBindings()
         {
             Container
@@ -34,14 +37,18 @@ namespace UserControlSystem
                 .To<StopCommandCommandCreator>()
                 .AsTransient();
 
-            //Container
-            //    .Bind<CancellationTokenSource>()
-            //    .FromInstance(new CancellationTokenSource())
-            //    .AsTransient();
+            Container
+                .Bind<CommandCreatorBase<ISetRallyPointCommand>>()
+                .To<SetRallyPointCommandCreator>()
+                .AsTransient();
 
             Container
                 .Bind<CommandButtonsModel>()
                 .AsTransient();
+
+            Container
+                .Bind<UnitProducerModel>()
+                .AsSingle();
         }
     }
 }

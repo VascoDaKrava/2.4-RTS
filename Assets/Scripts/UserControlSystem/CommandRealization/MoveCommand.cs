@@ -6,11 +6,11 @@ namespace UserControlSystem.CommandsRealization
 {
     public sealed class MoveCommand : IMoveCommand
     {
-        public Vector3 Target { get; }
+        public Vector3[] Targets { get; }
 
-        public MoveCommand(Vector3 target)
+        public MoveCommand(Vector3[] targets)
         {
-            Target = target;
+            Targets = targets;
         }
     }
 }

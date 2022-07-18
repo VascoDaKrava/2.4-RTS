@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Abstractions;
 using Abstractions.Commands;
 using UniRx;
@@ -12,12 +13,12 @@ namespace UserControlSystem.UI.Presenter
     public sealed class BottomRightPresenter : MonoBehaviour
     {
         [SerializeField] private CommandButtonsView _view;
-        
-        [Inject] private SelectableValue _selectable;
+
+        [Inject] private IObservable<ISelectable> _selectable;
         [Inject] private CommandButtonsModel _model;
-        
+
         private ISelectable _currentSelectable;
-        
+
         private void Start()
         {
             _view.Clear();

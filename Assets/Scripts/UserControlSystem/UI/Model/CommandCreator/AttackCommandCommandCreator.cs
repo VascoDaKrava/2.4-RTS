@@ -10,9 +10,9 @@ namespace UserControlSystem
     {
         [Inject] private AttackerValue _attaker;
 
-        protected override IAttackCommand CreateCommand(IDamagable target)
+        protected override IAttackCommand CreateCommand(IDamagable[] target)
         {
-            return new AttackCommand(target, _attaker.CurrentValue.AttackStrength);
+            return new AttackCommand(target[0], _attaker.CurrentValue.AttackStrength);
         }
     }
 }

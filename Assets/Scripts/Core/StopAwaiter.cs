@@ -1,4 +1,6 @@
-﻿namespace Abstractions
+﻿using Abstractions;
+
+namespace Core
 {
     public class StopAwaiter : AwaiterBase<AsyncExtensions.Void>
     {
