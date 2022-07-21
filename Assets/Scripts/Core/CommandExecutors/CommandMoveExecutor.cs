@@ -1,19 +1,19 @@
 using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
-using System.Threading;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AI;
+using Zenject;
 
 namespace Core.CommandExecutors
 {
     public sealed class CommandMoveExecutor : CommandExecutorBase<IMoveCommand>
     {
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private UnitMovementStop _stop;
-        [SerializeField] private UnitCTSource _unitCTSource;
+        [Inject] private IHolderNavMeshAgent _agentHolder;
+        [Inject] private IHolderAnimator _animatorHolder;
+        [Inject] private IHolderUnitMovementStop _stopMoveHolder;
+        [Inject] private UnitMovementStop _stop;
+        [Inject] private UnitCTSource _unitCTSource;
 
         private ReactiveCollection<Vector3> _rqueueMovePoints;
 
@@ -34,9 +34,9 @@ namespace Core.CommandExecutors
 
         private async void DoMove(Vector3 target)
         {
-            _agent.destination = target;
-            _stop.StartObseringMovement();
-            _animator.SetTrigger(AnimatorParams.Walk);
+            _agentHolder.NavMeshAgent.destination = target;
+            _stopMoveHolder.StartObseringMovement();
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
             _unitCTSource.NewToken();
 
             try
@@ -46,11 +46,11 @@ namespace Core.CommandExecutors
             catch
             {
                 _rqueueMovePoints.Clear();
-                _stop.DoStop();
+                _stopMoveHolder.DoStop();
             }
 
             _unitCTSource.ClearToken();
-            _animator.SetTrigger(AnimatorParams.Idle);
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
 
             if (_rqueueMovePoints.Count > 0)
             {

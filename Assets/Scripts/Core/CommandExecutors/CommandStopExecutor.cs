@@ -1,17 +1,12 @@
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
+using Zenject;
 
 namespace Core.CommandExecutors
 {
     public sealed class CommandStopExecutor : CommandExecutorBase<IStopCommand>
     {
-        [SerializeField] private UnitCTSource _unitCTSource;
-
-        //private void Start()
-        //{
-        //    _unitCTSource = GetComponent<UnitCTSource>();
-        //}
+        [Inject] private UnitCTSource _unitCTSource;
 
         public override void ExecuteSpecificCommand(IStopCommand command)
         {

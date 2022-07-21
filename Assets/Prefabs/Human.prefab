@@ -157,14 +157,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeForDestroyAfterDie: 3
   _attackStrength: 25
+  _attackRange: 1
+  _attackPeriod: 1000
   _maxHealth: 100
   _health: 100
   _icon: {fileID: 21300000, guid: 37737d84a8cac1249b3acd4672c1f91a, type: 3}
   _selectionMarker: {fileID: 2807613788339555756}
-  _animator: {fileID: 3823998404208972763}
   _commandStopExecutor: {fileID: 8894466459073261582}
+  _animator: {fileID: 3823998404208972763}
   _navMeshAgent: {fileID: 792211592931503929}
-  _unitCTSource: {fileID: 5510461382220166497}
   _productionTime: 3
   _unitName: Human
 --- !u!114 &5510461382220166497
@@ -191,7 +192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd23cc554ce7564c8dbf9b9dfae27c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!114 &8040474535253008533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,10 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd87bb6e25eec046998aa8bb1bf21b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 792211592931503929}
-  _animator: {fileID: 3823998404208972763}
-  _stop: {fileID: 947988383344653229}
-  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!114 &5433771276320125727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db609bd472a5be44e9b424f3c5e96741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 792211592931503929}
   _velocityStopFactor: 0.3
   _framesCountStopFactor: 60
 --- !u!114 &5993998410643203774
@@ -295,8 +290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _human: {fileID: 5729549594262545482}
-  _attackDistance: 1
-  _attackPeriod: 1400
 --- !u!114 &4557181468016173526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _checkInject: 0
-  _animator: {fileID: 3823998404208972763}
   _commandStopExecutor: {fileID: 8894466459073261582}
-  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!1001 &7240389485442756170
 PrefabInstance:
   m_ObjectHideFlags: 0

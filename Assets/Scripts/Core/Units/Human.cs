@@ -22,10 +22,10 @@ namespace Core
         [SerializeField] private float _health = 100.0f;
         [SerializeField] private Sprite _icon;
         [SerializeField] private GameObject _selectionMarker;
-        [SerializeField] private Animator _animator;
         [SerializeField] private CommandStopExecutor _commandStopExecutor;
+        [SerializeField] private Animator _animator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        [SerializeField] private UnitCTSource _unitCTSource;
+        //[SerializeField] private UnitCTSource _unitCTSource;
 
         [Space]
         [SerializeField] private float _productionTime = 3.0f;
@@ -44,7 +44,7 @@ namespace Core
         public GameObject UnitPrefab => gameObject;
         public string Name => _unitName;
 
-        public UnitCTSource UnitCTSource => _unitCTSource;
+        //public UnitCTSource UnitCTSource => _unitCTSource;
 
         public override NavMeshAgent NavMeshAgent => _navMeshAgent;
 

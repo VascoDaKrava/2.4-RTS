@@ -13,12 +13,12 @@ namespace Core.CommandExecutors
     {
         [SerializeField] private bool _checkInject = false;
 
-        [SerializeField] private Animator _animator;
         [SerializeField] private CommandStopExecutor _commandStopExecutor;
-        [SerializeField] private UnitCTSource _unitCTSource;
+        [Inject] private UnitCTSource _unitCTSource;
 
-        [Inject] private IHolderHealth _healthHolder;
         [Inject] private IAttacker _attacker;
+        [Inject] private IHolderAnimator _animatorHolder;
+        [Inject] private IHolderHealth _healthHolder;
         [Inject] private IHolderNavMeshAgent _navMeshAgentHolder;
 
         [Inject(Id = "AttackRange")] private float _attackingRange;
@@ -71,7 +71,7 @@ namespace Core.CommandExecutors
             //GetComponent<NavMeshAgent>().ResetPath();
             _navMeshAgentHolder.NavMeshAgent.isStopped = true;
             _navMeshAgentHolder.NavMeshAgent.ResetPath();
-            _animator.SetTrigger(AnimatorParams.Attack);
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Attack);
             target.GetDamage(_attacker.AttackStrength);
             //target.ReceiveDamage(GetComponent<IDamageDealer>().Damage);
         }
@@ -79,7 +79,7 @@ namespace Core.CommandExecutors
         private void StartMovingToPosition(Vector3 position)
         {
             _navMeshAgentHolder.NavMeshAgent.destination = position;
-            _animator.SetTrigger(AnimatorParams.Walk);
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
         }
 
         //public override async Task ExecuteSpecificCommand(IAttackCommand command)
@@ -99,7 +99,7 @@ namespace Core.CommandExecutors
                 _currentAttackOp.Cancel();
             }
             
-            _animator.SetTrigger(AnimatorParams.Idle);
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
             _currentAttackOp = null;
             _targetTransform = null;
             _unitCTSource.ClearToken();

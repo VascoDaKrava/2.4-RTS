@@ -7,22 +7,16 @@ namespace Core
     {
         private CancellationTokenSource _ctSource;
 
-        public CancellationToken Token => _ctSource.Token; //{ get => _ctSource; set => _ctSource = value; }
-        
-        public void NewToken()
-        {
-            _ctSource = new CancellationTokenSource();
-        }
-        
+        public CancellationToken Token => _ctSource.Token;
+
+        public void NewToken() => _ctSource = new CancellationTokenSource();
+
         public void ClearToken()
         {
             Cancel();
             _ctSource = null;
         }
 
-        public void Cancel()
-        {
-            _ctSource?.Cancel();
-        }
+        public void Cancel() => _ctSource?.Cancel();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Abstractions;
 using System;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -39,8 +40,6 @@ namespace Core
                 .AddTo(this);
         }
 
-        public IAwaiter<AsyncExtensions.Void> GetAwaiter() => new StopAwaiter(this);
-
         public void DoStop()
         {
             _agentHolder.NavMeshAgent.isStopped = true;
@@ -48,5 +47,7 @@ namespace Core
             _moveObserver?.Dispose();
             OnStop?.Invoke();
         }
+
+        public IAwaiter<AsyncExtensions.Void> GetAwaiter() => new StopAwaiter(this);
     }
 }
