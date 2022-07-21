@@ -14,6 +14,7 @@ namespace Core.CommandExecutors
         [SerializeField] private Animator _animator;
         [SerializeField] private UnitMovementStop _stop;
         [SerializeField] private UnitCTSource _unitCTSource;
+
         private ReactiveCollection<Vector3> _rqueueMovePoints;
 
         public override void ExecuteSpecificCommand(IMoveCommand command)
@@ -34,19 +35,21 @@ namespace Core.CommandExecutors
         private async void DoMove(Vector3 target)
         {
             _agent.destination = target;
+            _stop.StartObseringMovement();
             _animator.SetTrigger(AnimatorParams.Walk);
-            _unitCTSource.CTSource = new CancellationTokenSource();
+            _unitCTSource.NewToken();
 
             try
             {
-                await _stop.WithCancellation(_unitCTSource.CTSource.Token);
+                await _stop.WithCancellation(_unitCTSource.Token);
             }
             catch
             {
                 _rqueueMovePoints.Clear();
+                _stop.DoStop();
             }
 
-            _unitCTSource.CTSource = null;
+            _unitCTSource.ClearToken();
             _animator.SetTrigger(AnimatorParams.Idle);
 
             if (_rqueueMovePoints.Count > 0)

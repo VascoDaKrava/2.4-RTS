@@ -1,16 +1,12 @@
 using Abstractions;
+using Core;
 using System.Threading;
 using UnityEngine;
 using Zenject;
 
-public class HumanInstaller : MonoInstaller
+public sealed class HumanInstaller : MonoInstaller
 {
-    [SerializeField] private float _attackDistance = 222.0f;
-
-    /// <summary>
-    /// In ms
-    /// </summary>
-    [SerializeField] private int _attackPeriod = 22222;
+    [SerializeField] private Human _human;
 
     public override void InstallBindings()
     {
@@ -21,8 +17,12 @@ public class HumanInstaller : MonoInstaller
 
         Container.Bind<IHolderHealth>().FromComponentInChildren();
         
-        Container.Bind<float>().WithId("AttackDistance").FromInstance(2.0f);
+        Container.Bind<IHolderNavMeshAgent>().FromComponentInChildren();
         
-        Container.Bind<int>().WithId("AttackPeriod").FromInstance(_attackPeriod);
+        Container.Bind<IAttacker>().FromComponentInChildren();
+
+        Container.Bind<float>().WithId("AttackRange").FromInstance(_human.AttackRange);
+        
+        Container.Bind<int>().WithId("AttackPeriod").FromInstance(_human.AttackPeriod);
     }
 }

@@ -1,20 +1,21 @@
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using UnityEngine;
 
 namespace Core.CommandExecutors
 {
     public sealed class CommandStopExecutor : CommandExecutorBase<IStopCommand>
     {
-        private UnitCTSource _unitCTSource;
+        [SerializeField] private UnitCTSource _unitCTSource;
 
-        private void Start()
-        {
-            _unitCTSource = GetComponent<UnitCTSource>();
-        }
+        //private void Start()
+        //{
+        //    _unitCTSource = GetComponent<UnitCTSource>();
+        //}
 
         public override void ExecuteSpecificCommand(IStopCommand command)
         {
-            _unitCTSource.CTSource?.Cancel();
+            _unitCTSource.Cancel();
         }
     }
 }

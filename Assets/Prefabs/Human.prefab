@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd23cc554ce7564c8dbf9b9dfae27c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!114 &8040474535253008533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490f16e9721c9fa43862103b4e0b11fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackDistance: 3
+  _human: {fileID: 5729549594262545482}
+  _attackDistance: 1
   _attackPeriod: 1400
 --- !u!114 &4557181468016173526
 MonoBehaviour:
@@ -325,9 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fbee04d0057344eaccc065df9fbc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _checkInject: 0
   _animator: {fileID: 3823998404208972763}
-  _stopCommandExecutor: {fileID: 8894466459073261582}
-  asd: 1
+  _commandStopExecutor: {fileID: 8894466459073261582}
+  _unitCTSource: {fileID: 5510461382220166497}
 --- !u!1001 &7240389485442756170
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 {
     public interface IUnitProductionTask : IHolderIcon, IHolderName
     {
-    	public float TimeLeft { get; }
-    	public float ProductionTime { get; }
+    	float TimeLeft { get; }
+    	float ProductionTime { get; }
     }
 }

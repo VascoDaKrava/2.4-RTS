@@ -8,10 +8,16 @@ using UserControlSystem.CommandsRealization;
 
 namespace Core
 {
-    public sealed class Human : UnitBase, IProduceUnitCommand, IHolderUnitCTSource
+    public sealed class Human : UnitBase, IProduceUnitCommand
     {
         [SerializeField] private float _timeForDestroyAfterDie = 3.0f;
+
+        [Space]
         [SerializeField] private float _attackStrength = 25.0f;
+        [SerializeField] private float _attackRange = 1.0f;
+        [SerializeField] private int _attackPeriod = 1000;
+
+        [Space]
         [SerializeField] private float _maxHealth = 100.0f;
         [SerializeField] private float _health = 100.0f;
         [SerializeField] private Sprite _icon;
@@ -26,6 +32,9 @@ namespace Core
         [SerializeField] private string _unitName = "Human";
 
         public override float AttackStrength => _attackStrength;
+        public override float AttackRange => _attackRange;
+        public override int AttackPeriod => _attackPeriod;
+
         public override float MaxHealth => _maxHealth;
         public override float Health => _health;
         public override Sprite Icon => _icon;
@@ -40,6 +49,7 @@ namespace Core
         public override NavMeshAgent NavMeshAgent => _navMeshAgent;
 
         public override Animator Animator => _animator;
+
 
         public override void GetDamage(float value)
         {

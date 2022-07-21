@@ -1,26 +1,30 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 namespace Core.CommandExecutors
 {
-    public class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
+    public partial class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
     {
-        [SerializeField] private Animator _animator;
-        [SerializeField] private CommandStopExecutor _stopCommandExecutor;
+        [SerializeField] private bool _checkInject = false;
 
-        [Inject] private IHolderHealth _ourHealth;
-        [Inject(Id = "AttackDistance")] private float _attackingDistance;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private CommandStopExecutor _commandStopExecutor;
+        [SerializeField] private UnitCTSource _unitCTSource;
+
+        [Inject] private IHolderHealth _healthHolder;
+        [Inject] private IAttacker _attacker;
+        [Inject] private IHolderNavMeshAgent _navMeshAgentHolder;
+
+        [Inject(Id = "AttackRange")] private float _attackingRange;
         [Inject(Id = "AttackPeriod")] private int _attackingPeriod;
 
-        [SerializeField] private bool asd = true;
+        private int _roundDigits = 2;
 
         private Vector3 _ourPosition;
         private Vector3 _targetPosition;
@@ -28,26 +32,21 @@ namespace Core.CommandExecutors
 
         private readonly Subject<Vector3> _targetPositions = new Subject<Vector3>();
         private readonly Subject<Quaternion> _targetRotations = new Subject<Quaternion>();
-        private readonly Subject<IAttackable> _attackTargets = new Subject<IAttackable>();
+        private readonly Subject<IDamagable> _attackTargets = new Subject<IDamagable>();
 
         private Transform _targetTransform;
         private AttackOperation _currentAttackOp;
-
-        private void LateUpdate()
-        {
-            if (asd)
-            {
-                Debug.Log("Distance = " + _attackingDistance);
-                Debug.Log("Period = " + _attackingPeriod);
-                asd = false;
-            }
-        }
 
         [Inject]
         private void Init()
         {
             _targetPositions
-                .Select(value => new Vector3((float)Math.Round(value.x, 2), (float)Math.Round(value.y, 2), (float)Math.Round(value.z, 2)))
+                .Select(value =>
+                    new Vector3(
+                        (float)Math.Round(value.x, _roundDigits),
+                        (float)Math.Round(value.y, _roundDigits),
+                        (float)Math.Round(value.z, _roundDigits)
+                    ))
                 .Distinct()
                 .ObserveOnMainThread()
                 .Subscribe(StartMovingToPosition);
@@ -66,42 +65,54 @@ namespace Core.CommandExecutors
             transform.rotation = targetRotation;
         }
 
-        private void StartAttackingTargets(IAttackable target)
+        private void StartAttackingTargets(IDamagable target)
         {
-            GetComponent<NavMeshAgent>().isStopped = true;
-            GetComponent<NavMeshAgent>().ResetPath();
-            _animator.SetTrigger(Animator.StringToHash("Attack"));
+            //GetComponent<NavMeshAgent>().isStopped = true;
+            //GetComponent<NavMeshAgent>().ResetPath();
+            _navMeshAgentHolder.NavMeshAgent.isStopped = true;
+            _navMeshAgentHolder.NavMeshAgent.ResetPath();
+            _animator.SetTrigger(AnimatorParams.Attack);
+            target.GetDamage(_attacker.AttackStrength);
             //target.ReceiveDamage(GetComponent<IDamageDealer>().Damage);
         }
 
         private void StartMovingToPosition(Vector3 position)
         {
-            GetComponent<NavMeshAgent>().destination = position;
-            _animator.SetTrigger(Animator.StringToHash("Walk"));
+            _navMeshAgentHolder.NavMeshAgent.destination = position;
+            _animator.SetTrigger(AnimatorParams.Walk);
         }
 
         //public override async Task ExecuteSpecificCommand(IAttackCommand command)
-        //{
-        //_targetTransform = (command.Target as Component).transform;
-        //_currentAttackOp = new AttackOperation(this, command.Target);
-        //Update();
-        //_stopCommandExecutor.CancellationTokenSource = new CancellationTokenSource();
-        //try
-        //{
-        //    await _currentAttackOp.WithCancellation(_stopCommandExecutor.CancellationTokenSource.Token);
-        //}
-        //catch
-        //{
-        //    _currentAttackOp.Cancel();
-        //}
-        //_animator.SetTrigger("Idle");
-        //_currentAttackOp = null;
-        //_targetTransform = null;
-        //_stopCommandExecutor.CancellationTokenSource = null;
-        //}
+        public async Task ExecuteSpecificCommand12(IAttackCommand command)
+        {
+            _targetTransform = (command.Target as Component).transform;
+            _currentAttackOp = new AttackOperation(this, command.Target);
+            Update();
+            _unitCTSource.NewToken();// = new System.Threading.CancellationTokenSource();
+
+            try
+            {
+                await _currentAttackOp.WithCancellation(_unitCTSource.Token);
+            }
+            catch
+            {
+                _currentAttackOp.Cancel();
+            }
+            
+            _animator.SetTrigger(AnimatorParams.Idle);
+            _currentAttackOp = null;
+            _targetTransform = null;
+            _unitCTSource.ClearToken();
+        }
 
         private void Update()
         {
+            if (_checkInject)
+            {
+                Debug.Log("AStrength = " + _attacker.AttackStrength);
+                _checkInject = false;
+            }
+
             if (_currentAttackOp == null)
             {
                 return;
@@ -122,104 +133,5 @@ namespace Core.CommandExecutors
         {
             throw new NotImplementedException();
         }
-
-        #region AttackOperation
-
-        public sealed class AttackOperation : IAwaitable<AsyncExtensions.Void>
-        {
-            public class AttackOperationAwaiter : AwaiterBase<AsyncExtensions.Void>
-            {
-                private AttackOperation _attackOperation;
-
-                public AttackOperationAwaiter(AttackOperation attackOperation)
-                {
-                    _attackOperation = attackOperation;
-                    attackOperation.OnComplete += ONComplete;
-                }
-
-                private void ONComplete()
-                {
-                    _attackOperation.OnComplete -= ONComplete;
-                    //ONWaitFinish(new AsyncExtensions.Void());
-                }
-            }
-
-            private event Action OnComplete;
-
-            private readonly AttackCommandExecutor _attackCommandExecutor;
-            private readonly IAttackable _target;
-
-            private bool _isCancelled;
-
-            public AttackOperation(AttackCommandExecutor attackCommandExecutor, IAttackable target)
-            {
-                _target = target;
-                _attackCommandExecutor = attackCommandExecutor;
-
-                var thread = new Thread(AttackAlgorythm);
-                thread.Start();
-            }
-
-            public void Cancel()
-            {
-                _isCancelled = true;
-                OnComplete?.Invoke();
-            }
-
-            private void AttackAlgorythm(object obj)
-            {
-                while (true)
-                {
-                    if (
-                        _attackCommandExecutor == null
-                        || _attackCommandExecutor._ourHealth.Health == 0
-                        //|| _target.Health == 0
-                        || _isCancelled
-                        )
-                    {
-                        OnComplete?.Invoke();
-                        return;
-                    }
-
-                    var targetPosition = default(Vector3);
-                    var ourPosition = default(Vector3);
-                    var ourRotation = default(Quaternion);
-                    lock (_attackCommandExecutor)
-                    {
-                        targetPosition = _attackCommandExecutor._targetPosition;
-                        ourPosition = _attackCommandExecutor._ourPosition;
-                        ourRotation = _attackCommandExecutor._ourRotation;
-                    }
-
-                    var vector = targetPosition - ourPosition;
-                    var distanceToTarget = vector.magnitude;
-                    if (distanceToTarget > _attackCommandExecutor._attackingDistance)
-                    {
-                        var finalDestination = targetPosition - vector.normalized * (_attackCommandExecutor._attackingDistance * 0.9f);
-                        _attackCommandExecutor
-                    ._targetPositions.OnNext(finalDestination);
-                        Thread.Sleep(100);
-                    }
-                    else if (ourRotation != Quaternion.LookRotation(vector))
-                    {
-                        _attackCommandExecutor.
-                    _targetRotations
-                    .OnNext(Quaternion.LookRotation(vector));
-                    }
-                    else
-                    {
-                        _attackCommandExecutor._attackTargets.OnNext(_target);
-                        Thread.Sleep(_attackCommandExecutor._attackingPeriod);
-                    }
-                }
-            }
-
-            public IAwaiter<AsyncExtensions.Void> GetAwaiter()
-            {
-                return new AttackOperationAwaiter(this);
-            }
-        }
-
-        #endregion
     }
 }

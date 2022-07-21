@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderHealth, IHolderRallyPoint
+    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderRallyPoint
     {
         [SerializeField] private Sprite _icon;
 

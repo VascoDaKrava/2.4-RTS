@@ -4,6 +4,6 @@ namespace Abstractions
 {
     public interface IHolderNavMeshAgent
     { 
-        public abstract NavMeshAgent NavMeshAgent { get; }
+        NavMeshAgent NavMeshAgent { get; }
     }
 }

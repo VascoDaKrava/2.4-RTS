@@ -37,7 +37,7 @@ namespace Installers
                 .FromInstance(_damagableValue);
 
             Container
-                .Bind<IAwaitable<IAttackable>>()
+                .Bind<IAwaitable<IAttacker>>()
                 .FromInstance(_attackableleValue);
 
             Container

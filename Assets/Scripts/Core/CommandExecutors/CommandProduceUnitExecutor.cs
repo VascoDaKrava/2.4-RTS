@@ -6,9 +6,12 @@ using Core.CommandExecutors;
 using UniRx;
 using UnityEngine;
 using UserControlSystem.CommandsRealization;
+using Zenject;
 
 public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand>, IUnitProducer
 {
+    [Inject] private DiContainer _container;
+
     [SerializeField] private FactionMember _faction;
     [SerializeField] private Transform _unitsParent;
     [SerializeField] private int _maximumUnitsInQueue = 5;
@@ -32,8 +35,8 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         {
             removeTaskAtIndex(0);
             
-            var unit = Instantiate(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
-            
+            var unit = _container.InstantiatePrefab(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
+
             unit.GetComponent<CommandMoveExecutor>()
                 .ExecuteCommand(
                 new MoveCommand(

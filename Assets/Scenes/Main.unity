@@ -2995,6 +2995,11 @@ PrefabInstance:
       propertyPath: _health
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5929237845490898982, guid: 8748da8ccf37aa34082f8fa8a285dedd,
+        type: 3}
+      propertyPath: asd
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5993998410643203774, guid: 8748da8ccf37aa34082f8fa8a285dedd,
         type: 3}
       propertyPath: _factionID
