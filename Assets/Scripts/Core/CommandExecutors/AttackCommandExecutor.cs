@@ -11,9 +11,6 @@ namespace Core.CommandExecutors
 {
     public partial class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
     {
-        [SerializeField] private bool _checkInject = false;
-
-        [SerializeField] private CommandStopExecutor _commandStopExecutor;
         [Inject] private UnitCTSource _unitCTSource;
 
         [Inject] private IAttacker _attacker;
@@ -67,13 +64,10 @@ namespace Core.CommandExecutors
 
         private void StartAttackingTargets(IDamagable target)
         {
-            //GetComponent<NavMeshAgent>().isStopped = true;
-            //GetComponent<NavMeshAgent>().ResetPath();
             _navMeshAgentHolder.NavMeshAgent.isStopped = true;
             _navMeshAgentHolder.NavMeshAgent.ResetPath();
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Attack);
             target.GetDamage(_attacker.AttackStrength);
-            //target.ReceiveDamage(GetComponent<IDamageDealer>().Damage);
         }
 
         private void StartMovingToPosition(Vector3 position)
@@ -82,13 +76,18 @@ namespace Core.CommandExecutors
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
         }
 
+        public override void ExecuteSpecificCommand(ICommand command)
+        {
+            throw new NotImplementedException();
+        }
+
         //public override async Task ExecuteSpecificCommand(IAttackCommand command)
         public async Task ExecuteSpecificCommand12(IAttackCommand command)
         {
             _targetTransform = (command.Target as Component).transform;
             _currentAttackOp = new AttackOperation(this, command.Target);
             Update();
-            _unitCTSource.NewToken();// = new System.Threading.CancellationTokenSource();
+            _unitCTSource.NewToken();
 
             try
             {
@@ -105,14 +104,10 @@ namespace Core.CommandExecutors
             _unitCTSource.ClearToken();
         }
 
+        
+
         private void Update()
         {
-            if (_checkInject)
-            {
-                Debug.Log("AStrength = " + _attacker.AttackStrength);
-                _checkInject = false;
-            }
-
             if (_currentAttackOp == null)
             {
                 return;
@@ -129,9 +124,6 @@ namespace Core.CommandExecutors
             }
         }
 
-        public override void ExecuteSpecificCommand(IAttackCommand command)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

@@ -8,7 +8,7 @@ namespace Core.CommandExecutors
     {
         [Inject] private UnitCTSource _unitCTSource;
 
-        public override void ExecuteSpecificCommand(IStopCommand command)
+        public override void ExecuteSpecificCommand(ICommand command)
         {
             _unitCTSource.Cancel();
         }

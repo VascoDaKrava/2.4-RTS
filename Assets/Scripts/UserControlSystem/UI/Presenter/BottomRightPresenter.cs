@@ -56,9 +56,10 @@ namespace UserControlSystem.UI.Presenter
 
             if (selectable != null)
             {
-                var commandExecutors = new List<ICommandExecutor>();
-                commandExecutors.AddRange((selectable as Component).GetComponentsInParent<ICommandExecutor>());
-                _view.MakeLayout(commandExecutors);
+                _view.MakeLayout(
+                    new List<ICommandExecutor<ICommand>>((selectable as Component)
+                    .GetComponentsInParent<ICommandExecutor<ICommand>>())
+                    );
             }
         }
     }

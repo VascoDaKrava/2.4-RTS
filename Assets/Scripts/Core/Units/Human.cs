@@ -25,7 +25,6 @@ namespace Core
         [SerializeField] private CommandStopExecutor _commandStopExecutor;
         [SerializeField] private Animator _animator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
-        //[SerializeField] private UnitCTSource _unitCTSource;
 
         [Space]
         [SerializeField] private float _productionTime = 3.0f;
@@ -44,12 +43,9 @@ namespace Core
         public GameObject UnitPrefab => gameObject;
         public string Name => _unitName;
 
-        //public UnitCTSource UnitCTSource => _unitCTSource;
-
         public override NavMeshAgent NavMeshAgent => _navMeshAgent;
 
         public override Animator Animator => _animator;
-
 
         public override void GetDamage(float value)
         {

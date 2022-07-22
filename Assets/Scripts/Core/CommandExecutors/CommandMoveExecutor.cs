@@ -17,8 +17,9 @@ namespace Core.CommandExecutors
 
         private ReactiveCollection<Vector3> _rqueueMovePoints;
 
-        public override void ExecuteSpecificCommand(IMoveCommand command)
+        public override void ExecuteSpecificCommand(ICommand baseCommand)
         {
+            var command = (IMoveCommand)baseCommand;
             _rqueueMovePoints = command.Targets.ToReactiveCollection();
             _rqueueMovePoints.ObserveCountChanged().Subscribe(count => OnObserveCountChanged(count)).AddTo(this);
             DoMove(_rqueueMovePoints[0]);

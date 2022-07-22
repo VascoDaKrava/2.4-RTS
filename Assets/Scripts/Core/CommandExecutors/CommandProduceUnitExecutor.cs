@@ -38,7 +38,7 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
             var unit = _container.InstantiatePrefab(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
 
             unit.GetComponent<CommandMoveExecutor>()
-                .ExecuteCommand(
+                .ExecuteSpecificCommand(
                 new MoveCommand(
                     new Vector3[] { gameObject.GetComponent<IHolderRallyPoint>().RallyPoint }
                     )
@@ -60,8 +60,10 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         _queue.RemoveAt(_queue.Count - 1);
     }
 
-    public override void ExecuteSpecificCommand(IProduceUnitCommand command)
+    public override void ExecuteSpecificCommand(ICommand baseCommand)
     {
+        var command = (IProduceUnitCommand)baseCommand;
+
         if (_queue.Count < _maximumUnitsInQueue)
         {
             _queue.Add(new UnitProductionTask(command.ProductionTime, command.Icon, command.UnitPrefab, command.Name));

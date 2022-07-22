@@ -3,12 +3,11 @@ using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Zenject;
 
-
 namespace UserControlSystem
 {
     public sealed class CommandButtonsModel
     {
-        public event Action<ICommandExecutor> OnCommandAccepted;
+        public event Action<ICommandExecutor<ICommand>> OnCommandAccepted;
         public event Action OnCommandSent;
         public event Action OnCommandCancel;
 
@@ -21,7 +20,7 @@ namespace UserControlSystem
 
         private bool _commandIsPending;
 
-        public void OnCommandButtonClicked(ICommandExecutor commandExecutor)
+        public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor)
         {
             if (_commandIsPending)
             {
@@ -39,9 +38,9 @@ namespace UserControlSystem
             _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
         }
 
-        public void ExecuteCommandWrapper(ICommandExecutor commandExecutor, object command)
+        public void ExecuteCommandWrapper(ICommandExecutor<ICommand> commandExecutor, ICommand command)
         {
-            commandExecutor.ExecuteCommand(command);
+            commandExecutor.ExecuteSpecificCommand(command);
             _commandIsPending = false;
             OnCommandSent?.Invoke();
         }

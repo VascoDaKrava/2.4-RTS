@@ -10,7 +10,7 @@ namespace UserControlSystem.UI.View
 {
     public sealed class CommandButtonsView : MonoBehaviour
     {
-        public Action<ICommandExecutor> OnClick;
+        public Action<ICommandExecutor<ICommand>> OnClick;
 
         [SerializeField] private GameObject _attackButton;
         [SerializeField] private GameObject _moveButton;
@@ -44,7 +44,7 @@ namespace UserControlSystem.UI.View
                 .Add(typeof(CommandExecutorBase<ISetRallyPointCommand>), _setRallyPointButton);
         }
 
-        public void BlockInteractions(ICommandExecutor ce)
+        public void BlockInteractions(ICommandExecutor<ICommand> ce)
         {
             UnblockAllInteractions();
             GETButtonGameObjectByType(ce.GetType())
@@ -63,7 +63,7 @@ namespace UserControlSystem.UI.View
             _setRallyPointButton.GetComponent<Selectable>().interactable = value;
         }
 
-        public void MakeLayout(IEnumerable<ICommandExecutor> commandExecutors)
+        public void MakeLayout(IEnumerable<ICommandExecutor<ICommand>> commandExecutors)
         {
             foreach (var currentExecutor in commandExecutors)
             {

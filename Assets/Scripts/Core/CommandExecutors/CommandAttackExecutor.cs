@@ -6,7 +6,7 @@ namespace Core.CommandExecutors
 {
     public sealed class CommandAttackExecutor : CommandExecutorBase<IAttackCommand>
     {
-        public override void ExecuteSpecificCommand(IAttackCommand command)
+        public override void ExecuteSpecificCommand(ICommand baseCommand)
         {
             Debug.Log($"{name} attack");
         }
