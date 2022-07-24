@@ -58,7 +58,7 @@ namespace Core
 
         private async void DieAsync()
         {
-            _commandStopExecutor.ExecuteSpecificCommand(new StopCommand());
+            await _commandStopExecutor.ExecuteSpecificCommand(new StopCommand());
             _animator.SetTrigger(AnimatorParams.Die);
 
             var animationInfo = _animator.GetCurrentAnimatorStateInfo(0);

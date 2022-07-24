@@ -3,6 +3,8 @@ using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Core;
 using Core.CommandExecutors;
+using System;
+using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UserControlSystem.CommandsRealization;
@@ -12,6 +14,24 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
 {
     [Inject] private DiContainer _container;
 
+    private IHolderRallyPoint _holderRallyPoint;
+    private IDisposable _creationObserver;
+    private bool _isInWork = false;
+
+    private bool IsInWork
+    {
+        get => _isInWork;
+        set
+        {
+            _isInWork = value;
+            if (!_isInWork)
+            {
+                _creationObserver?.Dispose();
+            }
+        }
+    }
+
+    [Space]
     [SerializeField] private FactionMember _faction;
     [SerializeField] private Transform _unitsParent;
     [SerializeField] private int _maximumUnitsInQueue = 5;
@@ -21,34 +41,50 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
 
     public IReadOnlyReactiveCollection<IUnitProductionTask> Queue => _queue;
 
-    private void Update()
+    private void Start()
     {
-        if (_queue.Count == 0)
-        {
-            return;
-        }
+        _holderRallyPoint = gameObject.GetComponent<IHolderRallyPoint>();
 
-        var innerTask = (UnitProductionTask)_queue[0];
-        innerTask.TimeLeft -= Time.deltaTime;
-
-        if (innerTask.TimeLeft <= 0)
-        {
-            removeTaskAtIndex(0);
-            
-            var unit = _container.InstantiatePrefab(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
-
-            unit.GetComponent<CommandMoveExecutor>()
-                .ExecuteSpecificCommand(
-                new MoveCommand(
-                    new Vector3[] { gameObject.GetComponent<IHolderRallyPoint>().RallyPoint }
-                    )
-                );
-
-            unit.GetComponent<FactionMember>().SetFaction(_faction.FactionID);
-        }
+        _queue
+            .ObserveCountChanged()
+            .Where(_ => _queue.Count > 0)
+            .Where(_ => !IsInWork)
+            .Subscribe(_ => StartTimer())
+            .AddTo(this);
     }
 
-    public void Cancel(int index) => removeTaskAtIndex(index);
+    private void StartTimer()
+    {
+        var innerTask = (UnitProductionTask)_queue[0];
+        IsInWork = true;
+
+        _creationObserver = Observable
+            .EveryUpdate()
+            .Where(_ => innerTask.TimeLeft > 0.0f)
+            .Subscribe(_ =>
+            {
+                innerTask.TimeLeft -= Time.deltaTime;
+                if (innerTask.TimeLeft <= 0)
+                {
+                    CreateUnit(innerTask);
+                    removeTaskAtIndex(0);
+                }
+            })
+            .AddTo(this);
+    }
+
+    private void CreateUnit(UnitProductionTask innerTask)
+    {
+        var unit = _container.InstantiatePrefab(innerTask.UnitPrefab, _unitCreationPosition.position, Quaternion.identity, _unitsParent);
+        unit.GetComponent<FactionMember>().SetFaction(_faction.FactionID);
+
+        unit.GetComponent<CommandMoveExecutor>()
+            .ExecuteSpecificCommand(
+            new MoveCommand(
+                new Vector3[] { _holderRallyPoint.RallyPoint }
+                )
+            );
+    }
 
     private void removeTaskAtIndex(int index)
     {
@@ -57,11 +93,19 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
             _queue[i] = _queue[i + 1];
         }
 
+        if (index == 0)
+        {
+            IsInWork = false;
+        }
+
         _queue.RemoveAt(_queue.Count - 1);
     }
 
-    public override void ExecuteSpecificCommand(ICommand baseCommand)
+    public void Cancel(int index) => removeTaskAtIndex(index);
+
+    public override async Task ExecuteSpecificCommand(ICommand baseCommand)
     {
+        await Task.Yield();
         var command = (IProduceUnitCommand)baseCommand;
 
         if (_queue.Count < _maximumUnitsInQueue)

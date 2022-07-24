@@ -1,6 +1,7 @@
 using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -17,23 +18,28 @@ namespace Core.CommandExecutors
 
         private ReactiveCollection<Vector3> _rqueueMovePoints;
 
-        public override void ExecuteSpecificCommand(ICommand baseCommand)
+        public override async Task ExecuteSpecificCommand(ICommand baseCommand)
         {
             var command = (IMoveCommand)baseCommand;
             _rqueueMovePoints = command.Targets.ToReactiveCollection();
-            _rqueueMovePoints.ObserveCountChanged().Subscribe(count => OnObserveCountChanged(count)).AddTo(this);
-            DoMove(_rqueueMovePoints[0]);
+
+            _rqueueMovePoints
+                .ObserveCountChanged()
+                .Subscribe(async count => await OnObserveCountChangedAsync(count))
+                .AddTo(this);
+            
+            await DoMove(_rqueueMovePoints[0]);
         }
 
-        private void OnObserveCountChanged(int count)
+        private async Task OnObserveCountChangedAsync(int count)
         {
             if (count > 0)
             {
-                DoMove(_rqueueMovePoints[0]);
+                await DoMove(_rqueueMovePoints[0]);
             }
         }
 
-        private async void DoMove(Vector3 target)
+        private async Task DoMove(Vector3 target)
         {
             _agentHolder.NavMeshAgent.destination = target;
             _stopMoveHolder.StartObseringMovement();

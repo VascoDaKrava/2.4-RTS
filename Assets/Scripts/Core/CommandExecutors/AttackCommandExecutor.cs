@@ -76,14 +76,19 @@ namespace Core.CommandExecutors
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
         }
 
-        public override void ExecuteSpecificCommand(ICommand command)
+        //public override async Task ExecuteSpecificCommand(ICommand command)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public override async Task ExecuteSpecificCommand(ICommand command)
         {
-            throw new NotImplementedException();
+            await Task.Yield();
         }
 
-        //public override async Task ExecuteSpecificCommand(IAttackCommand command)
-        public async Task ExecuteSpecificCommand12(IAttackCommand command)
+        public /*override*/ async Task ExecuteSpecificCommand2(ICommand commandBase)
         {
+            var command = (IAttackCommand)commandBase;
             _targetTransform = (command.Target as Component).transform;
             _currentAttackOp = new AttackOperation(this, command.Target);
             Update();
@@ -97,14 +102,12 @@ namespace Core.CommandExecutors
             {
                 _currentAttackOp.Cancel();
             }
-            
+
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
             _currentAttackOp = null;
             _targetTransform = null;
             _unitCTSource.ClearToken();
         }
-
-        
 
         private void Update()
         {
@@ -124,6 +127,6 @@ namespace Core.CommandExecutors
             }
         }
 
-       
+
     }
 }

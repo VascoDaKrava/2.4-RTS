@@ -1,5 +1,6 @@
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using System.Threading.Tasks;
 using Zenject;
 
 namespace Core.CommandExecutors
@@ -8,8 +9,9 @@ namespace Core.CommandExecutors
     {
         [Inject] private UnitCTSource _unitCTSource;
 
-        public override void ExecuteSpecificCommand(ICommand command)
+        public override async Task ExecuteSpecificCommand(ICommand command)
         {
+            await Task.Yield();
             _unitCTSource.Cancel();
         }
     }
