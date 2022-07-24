@@ -1,7 +1,6 @@
 using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
 
-
 namespace UserControlSystem.CommandsRealization
 {
     public sealed class AttackCommand : IAttackCommand
@@ -11,7 +10,6 @@ namespace UserControlSystem.CommandsRealization
         public AttackCommand(IDamagable target, float damage)
         {
             Target = target;
-            //target.GetDamage(damage);
         }
     }
 }

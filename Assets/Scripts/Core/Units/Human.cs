@@ -14,7 +14,7 @@ namespace Core
 
         [Space]
         [SerializeField] private float _attackStrength = 25.0f;
-        [SerializeField] private float _attackRange = 1.0f;
+        [SerializeField] private float _attackRange = 2.0f;
         [SerializeField] private int _attackPeriod = 1000;
 
         [Space]

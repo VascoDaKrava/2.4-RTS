@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 5729549594262545482}
   - component: {fileID: 5510461382220166497}
   - component: {fileID: 8894466459073261582}
-  - component: {fileID: 8040474535253008533}
   - component: {fileID: 3354204550897158589}
   - component: {fileID: 5433771276320125727}
   - component: {fileID: 792211592931503929}
@@ -157,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeForDestroyAfterDie: 3
   _attackStrength: 25
-  _attackRange: 1
+  _attackRange: 2
   _attackPeriod: 1000
   _maxHealth: 100
   _health: 100
@@ -190,18 +189,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fd23cc554ce7564c8dbf9b9dfae27c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8040474535253008533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6975249106296485077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e984f20ed5689d439cf50d673058a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3354204550897158589
@@ -320,8 +307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fbee04d0057344eaccc065df9fbc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _checkInject: 0
-  _commandStopExecutor: {fileID: 8894466459073261582}
 --- !u!1001 &7240389485442756170
 PrefabInstance:
   m_ObjectHideFlags: 0

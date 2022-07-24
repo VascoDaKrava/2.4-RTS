@@ -2,7 +2,7 @@
 
 namespace Core.CommandExecutors
 {
-    public partial class AttackCommandExecutor
+    public partial class CommandAttackExecutor
     {
         public sealed partial class AttackOperation
         {

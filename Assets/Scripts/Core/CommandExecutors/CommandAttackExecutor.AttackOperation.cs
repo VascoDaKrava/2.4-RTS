@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Core.CommandExecutors
 {
-    public partial class AttackCommandExecutor
+    public partial class CommandAttackExecutor
     {
         public sealed partial class AttackOperation : IAwaitable<AsyncExtensions.Void>
         {
             private float _destDeviation = 0.9f;
             private int _threadSleepTime = 100;
             private bool _isCancelled;
-            private readonly AttackCommandExecutor _attackCommandExecutor;
+            private readonly CommandAttackExecutor _attackCommandExecutor;
             private readonly IDamagable _target;
 
             private event Action OnComplete;
 
-            public AttackOperation(AttackCommandExecutor attackCommandExecutor, IDamagable target)
+            public AttackOperation(CommandAttackExecutor attackCommandExecutor, IDamagable target)
             {
                 _target = target;
                 _attackCommandExecutor = attackCommandExecutor;
