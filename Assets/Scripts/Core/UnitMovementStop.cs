@@ -1,6 +1,5 @@
 ﻿using Abstractions;
 using System;
-using System.Threading;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -31,7 +30,7 @@ namespace Core
                 .AddTo(this);
         }
 
-        public void StartObseringMovement()
+        public void StartObservingMovement()
         {
             _moveObserver = Observable
                 .EveryUpdate()

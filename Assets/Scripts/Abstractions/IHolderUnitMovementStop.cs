@@ -2,7 +2,7 @@
 {
     public interface IHolderUnitMovementStop
     {
-        void StartObseringMovement();
+        void StartObservingMovement();
         void DoStop();
     }
 }

@@ -4,7 +4,6 @@ using Abstractions;
 using Abstractions.Commands;
 using Zenject;
 
-
 namespace UserControlSystem
 {
     public abstract class CancellableCommandCreatorBase<TCommand, TArgument>

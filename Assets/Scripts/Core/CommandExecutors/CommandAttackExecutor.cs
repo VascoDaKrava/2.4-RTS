@@ -76,11 +76,6 @@ namespace Core.CommandExecutors
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
         }
 
-        //public override async Task ExecuteSpecificCommand(ICommand command)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public override async Task ExecuteSpecificCommand(ICommand commandBase)
         {
             var command = (IAttackCommand)commandBase;

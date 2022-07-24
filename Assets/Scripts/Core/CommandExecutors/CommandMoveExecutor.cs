@@ -13,7 +13,7 @@ namespace Core.CommandExecutors
         [Inject] private IHolderNavMeshAgent _agentHolder;
         [Inject] private IHolderAnimator _animatorHolder;
         [Inject] private IHolderUnitMovementStop _stopMoveHolder;
-        [Inject] private UnitMovementStop _stop;
+        [Inject] private UnitMovementStop _stopMoveStop;
         [Inject] private UnitCTSource _unitCTSource;
 
         private ReactiveCollection<Vector3> _rqueueMovePoints;
@@ -27,7 +27,7 @@ namespace Core.CommandExecutors
                 .ObserveCountChanged()
                 .Subscribe(async count => await OnObserveCountChangedAsync(count))
                 .AddTo(this);
-            
+
             await DoMove(_rqueueMovePoints[0]);
         }
 
@@ -42,13 +42,13 @@ namespace Core.CommandExecutors
         private async Task DoMove(Vector3 target)
         {
             _agentHolder.NavMeshAgent.destination = target;
-            _stopMoveHolder.StartObseringMovement();
+            _stopMoveHolder.StartObservingMovement();
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
             _unitCTSource.NewToken();
 
             try
             {
-                await _stop.WithCancellation(_unitCTSource.Token);
+                await _stopMoveStop.WithCancellation(_unitCTSource.Token);
             }
             catch
             {
@@ -56,7 +56,6 @@ namespace Core.CommandExecutors
                 _stopMoveHolder.DoStop();
             }
 
-            _unitCTSource.ClearToken();
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
 
             if (_rqueueMovePoints.Count > 0)

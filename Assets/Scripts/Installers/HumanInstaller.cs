@@ -13,6 +13,7 @@ public sealed class HumanInstaller : MonoInstaller
         Container.Bind<UnitCTSource>().FromComponentInChildren();
         Container.Bind<UnitMovementStop>().FromComponentInChildren();
         Container.Bind<CommandStopExecutor>().FromComponentInChildren();
+        Container.Bind<CommandMoveExecutor>().FromComponentInChildren();
 
         Container.Bind<IAttacker>().FromComponentInChildren();
         Container.Bind<IHolderAnimator>().FromComponentInChildren();
