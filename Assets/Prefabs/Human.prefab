@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 221080593297701551}
   - component: {fileID: 5729549594262545482}
   - component: {fileID: 5510461382220166497}
+  - component: {fileID: 5929237845490898982}
   - component: {fileID: 8894466459073261582}
   - component: {fileID: 3354204550897158589}
   - component: {fileID: 5433771276320125727}
@@ -103,7 +104,6 @@ GameObject:
   - component: {fileID: 5993998410643203774}
   - component: {fileID: 2002779874084627492}
   - component: {fileID: 4557181468016173526}
-  - component: {fileID: 5929237845490898982}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -177,6 +177,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c14a26557f0fafe4c89c0854e3262995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5929237845490898982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975249106296485077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19fbee04d0057344eaccc065df9fbc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8894466459073261582
@@ -295,18 +307,6 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &5929237845490898982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6975249106296485077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19fbee04d0057344eaccc065df9fbc73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7240389485442756170
 PrefabInstance:
   m_ObjectHideFlags: 0

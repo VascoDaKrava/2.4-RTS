@@ -1,7 +1,9 @@
+using Abstractions.Enums;
+
 namespace Abstractions
 {
     public interface IFactionMember
     {
-        int FactionID { get; }
+        FactionID FactionID { get; }
     }
 }

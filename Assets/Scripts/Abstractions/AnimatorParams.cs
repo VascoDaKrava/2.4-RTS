@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace Abstractions
 {
     public static class AnimatorParams
     {
