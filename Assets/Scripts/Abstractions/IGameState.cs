@@ -5,8 +5,8 @@ namespace Abstractions
 {
     public interface IGameState
     {
-        void AddFactionMember(IFactionMember factionMember, int instaceID);
-        void RemoveFactionMember(IFactionMember factionMember, int instaceID);
+        void AddFactionMember(IFactionMember factionMember);
+        void RemoveFactionMember(IFactionMember factionMember);
         IObservable<FactionID> WhoWin { get; }
     }
 }

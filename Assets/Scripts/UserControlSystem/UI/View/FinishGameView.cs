@@ -13,10 +13,10 @@ namespace UserControlSystem.UI.View
 
         public void SetWin(FactionID factionID)
         {
-            _text.text = $"Game over.\n" +
+            _text.text = $"Game is finished now!\n" +
                 $"Faction {factionID}\n" +
-                $"has lost\n" +
-                $"ALL units and buildings";
+                $"WIN\n" +
+                $"Others were lost all its units and buildings";
         }
     }
 }

@@ -4078,6 +4078,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1312524274967281373, guid: a879fbb3e421f324fbb17627a410f4d4,
         type: 3}
+      propertyPath: _health
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 1312524274967281373, guid: a879fbb3e421f324fbb17627a410f4d4,
+        type: 3}
       propertyPath: _unitsParent
       value: 
       objectReference: {fileID: 1524963700}

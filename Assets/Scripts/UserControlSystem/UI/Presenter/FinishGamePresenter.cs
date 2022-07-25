@@ -8,7 +8,8 @@ namespace UserControlSystem.UI.Presenter
     public class FinishGamePresenter : MonoBehaviour
     {
         [Inject] private IGameState _gameState;
-        [SerializeField] private IFinishGameView _view;
+        [Inject] private IFinishGameView _view;
+        [SerializeField] private GameObject _otherUI;
 
         [Inject]
         private void Init()
@@ -17,11 +18,11 @@ namespace UserControlSystem.UI.Presenter
                 .ObserveOnMainThread()
                 .Subscribe(result =>
                 {
+                    _otherUI.SetActive(false);
                     _view.SetWin(result);
                     _view.ShowMessage = true;
                     Time.timeScale = 0.0f;
-                }
-            );
+                });
         }
     }
 }

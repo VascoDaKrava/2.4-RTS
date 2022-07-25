@@ -16,7 +16,7 @@ namespace Core
         public void SetFaction(FactionID factionID)
         {
             _factionID = factionID;
-            _gameState.AddFactionMember(this, GetInstanceID());
+            _gameState.AddFactionMember(this);
         }
 
         private void Awake()
@@ -29,7 +29,7 @@ namespace Core
 
         private void OnDestroy()
         {
-            _gameState.RemoveFactionMember(this, GetInstanceID());
+            _gameState.RemoveFactionMember(this);
         }
     }
 }
