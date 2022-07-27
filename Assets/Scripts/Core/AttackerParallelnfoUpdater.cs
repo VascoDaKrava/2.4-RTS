@@ -1,5 +1,4 @@
 ﻿using Abstractions;
-using Abstractions.Commands;
 using UnityEngine;
 using Zenject;
 
@@ -8,15 +7,16 @@ namespace Core
     public class AttackerParallelnfoUpdater : MonoBehaviour, ITickable
     {
         [Inject] private IAutomaticAttacker _automaticAttacker;
+        [Inject] private IHolderCommandExecutor _holderCommand;
 
         public void Tick()
         {
             AutoAttackEvaluator
                 .AttackersDictionary
-                .AddOrUpdate(gameObject, new AutoAttackEvaluator.AttackerParallelnfo(_automaticAttacker.VisionRadius, default/*_queue.CurrentCommand*/), (go, value) =>
+                .AddOrUpdate(gameObject, new AutoAttackEvaluator.AttackerParallelnfo(_automaticAttacker.VisionRadius, _holderCommand.CurrentCommand), (go, value) =>
 {
     value.VisionRadius = _automaticAttacker.VisionRadius;
-    value.CurrentCommand = default/*_queue.CurrentCommand*/;
+    value.CurrentCommand = _holderCommand.CurrentCommand;
     return value;
 });
         }
