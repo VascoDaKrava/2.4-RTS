@@ -22,6 +22,7 @@ public sealed class HumanInstaller : MonoInstaller
         Container.Bind<IHolderHealth>().FromComponentInChildren();
         Container.Bind<IHolderNavMeshAgent>().FromComponentInChildren();
         Container.Bind<IHolderUnitMovementStop>().FromComponentInChildren();
+        Container.Bind<IHolderCommandExecutor>().FromComponentInChildren();
 
         Container.Bind<IAutomaticAttacker>().FromComponentInChildren();
         Container.Bind<IFactionMember>().FromComponentInChildren();

@@ -1,9 +1,10 @@
+using Abstractions.Commands;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Abstractions
 {
-    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, IHolderNavMeshAgent, IHolderAnimator, IAutomaticAttacker
+    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, IHolderNavMeshAgent, IHolderAnimator, IHolderCommandExecutor, IAutomaticAttacker
     {
         public abstract GameObject SelectionMarker { get; }
 
@@ -30,9 +31,18 @@ namespace Abstractions
         public abstract NavMeshAgent NavMeshAgent { get; }
 
         public abstract Animator Animator { get; }
-        
+
         public abstract float VisionRadius { get; }
 
+        public abstract ICommand CurrentCommand { get; set; }
+
         public abstract void GetDamage(float value);
+
+        public abstract void BeforeDestroy();
+        
+        private void OnDestroy()
+        {
+            BeforeDestroy();
+        }
     }
 }

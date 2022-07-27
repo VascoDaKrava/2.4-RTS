@@ -1,10 +1,13 @@
 using Abstractions;
+using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Core.CommandExecutors;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
+using UserControlSystem;
 using UserControlSystem.CommandsRealization;
+using Zenject;
 
 namespace Core
 {
@@ -31,6 +34,10 @@ namespace Core
         [SerializeField] private float _productionTime = 3.0f;
         [SerializeField] private string _unitName = "Human";
 
+        [Inject] private SelectableValue _selectedObject;
+
+        private ICommand _currentCommand;
+
         public override float AttackStrength => _attackStrength;
         public override float AttackRange => _attackRange;
         public override int AttackPeriod => _attackPeriod;
@@ -50,12 +57,22 @@ namespace Core
 
         public override float VisionRadius => _visionRadius;
 
+        public override ICommand CurrentCommand { get => _currentCommand; set => _currentCommand = value; }
+
         public override void GetDamage(float value)
         {
             _health -= value;
             if (_health <= 0)
             {
                 DieAsync();
+            }
+        }
+
+        public override void BeforeDestroy()
+        {
+            if (Selected)
+            {
+                _selectedObject.SetValue(null);
             }
         }
 
