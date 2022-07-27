@@ -40,7 +40,7 @@ namespace UserControlSystem
 
         public void ExecuteCommandWrapper(ICommandExecutor<ICommand> commandExecutor, ICommand command)
         {
-            commandExecutor.ExecuteSpecificCommand(command);
+            commandExecutor.TryExecuteCommand(command);
             _commandIsPending = false;
             OnCommandSent?.Invoke();
         }

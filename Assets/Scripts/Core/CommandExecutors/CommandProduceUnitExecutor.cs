@@ -79,7 +79,7 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
         unit.GetComponent<FactionMember>().SetFaction(_faction.FactionID);
 
         unit.GetComponent<CommandMoveExecutor>()
-            .ExecuteSpecificCommand(
+            .TryExecuteCommand(
             new MoveCommand(
                 new Vector3[] { _holderRallyPoint.RallyPoint }
                 )

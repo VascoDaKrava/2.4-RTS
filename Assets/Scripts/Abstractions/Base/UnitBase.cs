@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace Abstractions
 {
-    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, IHolderNavMeshAgent, IHolderAnimator
+    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, IHolderNavMeshAgent, IHolderAnimator, IAutomaticAttacker
     {
         public abstract GameObject SelectionMarker { get; }
 
@@ -30,6 +30,8 @@ namespace Abstractions
         public abstract NavMeshAgent NavMeshAgent { get; }
 
         public abstract Animator Animator { get; }
+        
+        public abstract float VisionRadius { get; }
 
         public abstract void GetDamage(float value);
     }

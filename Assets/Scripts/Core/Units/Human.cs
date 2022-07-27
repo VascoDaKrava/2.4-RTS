@@ -16,6 +16,7 @@ namespace Core
         [SerializeField] private float _attackStrength = 25.0f;
         [SerializeField] private float _attackRange = 2.0f;
         [SerializeField] private int _attackPeriod = 1000;
+        [SerializeField] private float _visionRadius = 5.0f;
 
         [Space]
         [SerializeField] private float _maxHealth = 100.0f;
@@ -47,6 +48,8 @@ namespace Core
 
         public override Animator Animator => _animator;
 
+        public override float VisionRadius => _visionRadius;
+
         public override void GetDamage(float value)
         {
             _health -= value;
@@ -58,7 +61,7 @@ namespace Core
 
         private async void DieAsync()
         {
-            await _commandStopExecutor.ExecuteSpecificCommand(new StopCommand());
+            await _commandStopExecutor.TryExecuteCommand(new StopCommand());
             _animator.SetTrigger(AnimatorParams.Die);
 
             var animationInfo = _animator.GetCurrentAnimatorStateInfo(0);
