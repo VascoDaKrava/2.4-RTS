@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using Core.CommandExecutors;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,6 +68,9 @@ namespace UserControlSystem.UI.View
         {
             foreach (var currentExecutor in commandExecutors)
             {
+                if (currentExecutor is CommandMoveExecutor)
+                { continue; }
+
                 var buttonGameObject = GETButtonGameObjectByType(currentExecutor.GetType());
                 buttonGameObject.SetActive(true);
                 var button = buttonGameObject.GetComponent<Button>();

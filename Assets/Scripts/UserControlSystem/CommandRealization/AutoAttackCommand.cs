@@ -1,6 +1,5 @@
 ﻿using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
 
 namespace UserControlSystem.CommandsRealization
 {
@@ -10,7 +9,6 @@ namespace UserControlSystem.CommandsRealization
 
         public AutoAttackCommand(IDamagable target)
         {
-            Debug.Log($"{this} --> {target}");
             Target = target;
         }
     }

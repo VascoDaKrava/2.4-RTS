@@ -1,6 +1,7 @@
 ﻿using System;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using UniRx;
 using Zenject;
 
 namespace UserControlSystem
@@ -19,6 +20,7 @@ namespace UserControlSystem
         [Inject] private CommandCreatorBase<ISetRallyPointCommand> _rallyPointSetter;
 
         private bool _commandIsPending;
+        public Subject<bool> IsCommandPending = new Subject<bool>();
 
         public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor)
         {
@@ -28,6 +30,7 @@ namespace UserControlSystem
             }
 
             _commandIsPending = true;
+            IsCommandPending.OnNext(_commandIsPending);
             OnCommandAccepted?.Invoke(commandExecutor);
 
             _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
@@ -42,12 +45,14 @@ namespace UserControlSystem
         {
             commandExecutor.TryExecuteCommand(command);
             _commandIsPending = false;
+            IsCommandPending.OnNext(_commandIsPending);
             OnCommandSent?.Invoke();
         }
 
         public void OnSelectionChanged()
         {
             _commandIsPending = false;
+            IsCommandPending.OnNext(_commandIsPending);
             ProcessOnCancel();
         }
 

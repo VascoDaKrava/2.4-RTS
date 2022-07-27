@@ -3054,6 +3054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _finishGameView: {fileID: 1061888665531592461}
+  _bottomRightPresenter: {fileID: 4243908240975590743}
 --- !u!1 &5154338487924491451
 GameObject:
   m_ObjectHideFlags: 0

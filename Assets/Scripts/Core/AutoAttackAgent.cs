@@ -22,9 +22,7 @@ namespace Core
 
         private async void AutoAttack(GameObject target)
         {
-            Debug.Log($"Start autoattack {target}");
             await _attackExecutor.TryExecuteCommand(new AutoAttackCommand(target.GetComponent<IDamagable>()));
-            Debug.Log("Finish autoattack");
         }
     }
 }
