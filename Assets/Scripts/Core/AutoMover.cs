@@ -27,7 +27,8 @@ namespace Core
             _groundPointClick
                 .Where(x => x != default)
                 .Where(_ => _selectable.Selected)
-                .Subscribe(target => CanMove(target));
+                .Subscribe(target => CanMove(target))
+                .AddTo(this);
         }
 
         private async void CanMove(Vector3 target)
