@@ -5186,6 +5186,9 @@ MonoBehaviour:
   _human: {fileID: 5729549594262545482, guid: 8748da8ccf37aa34082f8fa8a285dedd, type: 3}
   _skeleton: {fileID: 869346727967610786, guid: bb1dc2024fe7e1148b7d067f50a56015,
     type: 3}
+  _units:
+  - {fileID: 5729549594262545482, guid: 8748da8ccf37aa34082f8fa8a285dedd, type: 3}
+  - {fileID: 869346727967610786, guid: bb1dc2024fe7e1148b7d067f50a56015, type: 3}
 --- !u!1 &1650175298
 GameObject:
   m_ObjectHideFlags: 0

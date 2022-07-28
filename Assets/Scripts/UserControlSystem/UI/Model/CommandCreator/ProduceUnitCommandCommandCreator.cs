@@ -1,6 +1,7 @@
 ﻿using System;
 using Abstractions;
 using Abstractions.Commands.CommandsInterfaces;
+using Core;
 using UserControlSystem.CommandsRealization;
 using Zenject;
 
@@ -10,11 +11,23 @@ namespace UserControlSystem
     {
         [Inject] private DiContainer _container;
 
-        protected override void ClassSpecificCommandCreation(Action<IProduceUnitCommand<UnitBase>> creationCallback)
+        protected override void ClassSpecificCommandCreation(Action<IProduceUnitCommand<UnitBase>> creationCallback, Type type)
         {
-            var unitCommand = new ProduceUnitCommandHeir();
-            _container.Inject(unitCommand);
-            creationCallback?.Invoke(unitCommand);
+            if (type == typeof(Human))
+            {
+                var humanCommand = new ProduceUnitHumanCommand();
+                _container.Inject(humanCommand);
+                creationCallback?.Invoke(humanCommand);
+                return;
+            }
+
+            if (type == typeof(Skeleton))
+            {
+                var skeletonCommand = new ProduceUnitSkeletonCommand();
+                _container.Inject(skeletonCommand);
+                creationCallback?.Invoke(skeletonCommand);
+                return;
+            }
         }
     }
 }

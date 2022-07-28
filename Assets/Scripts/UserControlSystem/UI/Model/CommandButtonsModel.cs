@@ -23,7 +23,7 @@ namespace UserControlSystem.UI.Model
         private bool _commandIsPending;
         public Subject<bool> IsCommandPending = new Subject<bool>();
 
-        public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor)
+        public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor, Type type)
         {
             if (_commandIsPending)
             {
@@ -34,12 +34,13 @@ namespace UserControlSystem.UI.Model
             IsCommandPending.OnNext(_commandIsPending);
             OnCommandAccepted?.Invoke(commandExecutor);
 
-            _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _attacker.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+
+            _attacker.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
         }
 
         public void ExecuteCommandWrapper(ICommandExecutor<ICommand> commandExecutor, ICommand command)
