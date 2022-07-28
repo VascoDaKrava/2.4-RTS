@@ -70,15 +70,15 @@ namespace UserControlSystem.UI.View
 
         private void SetInteractible(bool value)
         {
-            _attackButton.GetComponent<Selectable>().interactable = value;
-            _moveButton.GetComponent<Selectable>().interactable = value;
-            _patrolButton.GetComponent<Selectable>().interactable = value;
-            _stopButton.GetComponent<Selectable>().interactable = value;
-            _teleportButton.GetComponent<Selectable>().interactable = value;
+            _attackButton.interactable = value;
+            _moveButton.interactable = value;
+            _patrolButton.interactable = value;
+            _stopButton.interactable = value;
+            _teleportButton.interactable = value;
 
-            _produceUnitHumanButton.GetComponent<Selectable>().interactable = value;
-            _produceUnitSkeletonButton.GetComponent<Selectable>().interactable = value;
-            _setRallyPointButton.GetComponent<Selectable>().interactable = value;
+            _produceUnitHumanButton.interactable = value;
+            _produceUnitSkeletonButton.interactable = value;
+            _setRallyPointButton.interactable = value;
         }
 
         public void MakeLayout(IEnumerable<ICommandExecutor<ICommand>> commandExecutors)
