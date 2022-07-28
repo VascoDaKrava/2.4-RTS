@@ -41,6 +41,7 @@ namespace Core.CommandExecutors
 
         private async Task DoMove(Vector3 target)
         {
+            _stopMoveHolder.DoStop();
             _agentHolder.NavMeshAgent.destination = target;
             _stopMoveHolder.StartObservingMovement();
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
@@ -48,12 +49,10 @@ namespace Core.CommandExecutors
 
             try
             {
-                Debug.Log("try MoveExec");
                 await _unitMoveStop.WithCancellation(_unitCTSource.Token);
             }
             catch
             {
-                Debug.Log("catch MoveExec");
                 _rqueueMovePoints.Clear();
                 _stopMoveHolder.DoStop();
             }

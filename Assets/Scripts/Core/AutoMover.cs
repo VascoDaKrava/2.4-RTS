@@ -12,7 +12,6 @@ namespace Core
     {
         [Inject] ICommandButtonsPresenter _commandButtons;
         [Inject] private CommandMoveExecutor _moveExecutor;
-        [Inject] private UnitCTSource _unitCTSource;
         [Inject] private Vector3Value _groundPointClick;
         [Inject] private ISelectable _selectable;
 
@@ -33,23 +32,12 @@ namespace Core
 
         private async void CanMove(Vector3 target)
         {
-            Debug.Log("TryMove");
-
-            if (_isOtherCommandWaitInput) return;
-
-            Debug.Log("CanMove");
-
-            Debug.Log("Go to " + target);
-
-            //return;
-            if (_unitCTSource.Token != default)
+            if (_isOtherCommandWaitInput)
             {
-                _unitCTSource.Cancel();
+                return;
             }
 
             await _moveExecutor.TryExecuteCommand(new MoveCommand(target));
-
-            Debug.Log("After await");
         }
     }
 }

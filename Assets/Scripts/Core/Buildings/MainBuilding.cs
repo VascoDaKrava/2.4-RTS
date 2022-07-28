@@ -59,7 +59,6 @@ namespace Core
         public void GetDamage(float value)
         {
             _health -= value;
-            Debug.Log($"{this} get {value} damage.");
             if (_health <= 0)
             {
                 Destroy(gameObject);

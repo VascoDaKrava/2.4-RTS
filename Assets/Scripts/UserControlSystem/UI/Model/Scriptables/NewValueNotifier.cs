@@ -39,12 +39,10 @@ namespace UserControlSystem
         {
             if (_shiftStillPress)
             {
-                Debug.Log($"Add {value}");
                 _com.Enqueue(value);
             }
             else
             {
-                Debug.Log($"Add {value}");
                 _com.Enqueue(value);
                 InputFinish();
             }
@@ -52,13 +50,11 @@ namespace UserControlSystem
 
         private void InputFinish()
         {
-            Debug.Log("Input finish");
-
             if (_com.Count == 0)
             {
-                Debug.Log("Queue is empty");
                 return;
             }
+
             _streamClick.Dispose();
             _streamFinishInput.Dispose();
             _streamStillInput.Dispose();
