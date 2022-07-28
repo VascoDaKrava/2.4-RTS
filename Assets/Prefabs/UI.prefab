@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 7738651545487807017}
   - component: {fileID: 4496104799290818374}
   m_Layer: 5
-  m_Name: ButtonHold
+  m_Name: ButtonStop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HOLD POSITION
+  m_text: STOP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 226b958d8c8ebfc4ba79442a228521ac, type: 2}
   m_sharedMaterial: {fileID: -3731818145771458027, guid: 226b958d8c8ebfc4ba79442a228521ac,

@@ -1,19 +1,29 @@
 using Abstractions;
 using Abstractions.Commands;
 using UnityEngine;
+using UnityEngine.AI;
 using UserControlSystem;
 using Zenject;
 
 namespace Core
 {
-    public sealed class Tower : MonoBehaviour, ISelectable, IDamagable
+    public sealed class Tower : MonoBehaviour, ISelectable, IDamagable, IAttacker, IHolderCommandExecutor, IHolderAnimator
+        ,IHolderNavMeshAgent ,IHolderUnitMovementStop
     {
+        [Space]
         [SerializeField] private Sprite _icon;
 
         [SerializeField] private float _maxHealth = 200;
         [SerializeField] private float _health = 100;
 
+        [Space]
         [SerializeField] private GameObject _selectionMarker;
+        [SerializeField] private Animator _animator;
+
+        [Space]
+        [SerializeField] private float _attackStrength = 50.0f;
+        [SerializeField] private float _attackRange = 10.0f;
+        [SerializeField] private int _attackPeriod = 1000;
 
         [Inject] private SelectableValue _selectedObject;
 
@@ -38,6 +48,14 @@ namespace Core
 
         public ICommand CurrentCommand { get => default; set { } }
 
+        public float AttackStrength => _attackStrength;
+        public float AttackRange => _attackRange;
+        public int AttackPeriod => _attackPeriod;
+
+        public Animator Animator => _animator;
+
+        public NavMeshAgent NavMeshAgent => throw new System.NotImplementedException();
+
         public void BeforeDestroy()
         {
             if (Selected)
@@ -58,6 +76,16 @@ namespace Core
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void StartObservingMovement()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DoStop()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
