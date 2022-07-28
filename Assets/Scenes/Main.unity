@@ -1658,6 +1658,36 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3788572611424396236, guid: 5dd235a43d36f9347a1a35df441f10d9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4014630595650441024, guid: 5dd235a43d36f9347a1a35df441f10d9,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -5183,9 +5213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37bc07cba8b5e014eb935ee9c5d33721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _human: {fileID: 5729549594262545482, guid: 8748da8ccf37aa34082f8fa8a285dedd, type: 3}
-  _skeleton: {fileID: 869346727967610786, guid: bb1dc2024fe7e1148b7d067f50a56015,
-    type: 3}
   _units:
   - {fileID: 5729549594262545482, guid: 8748da8ccf37aa34082f8fa8a285dedd, type: 3}
   - {fileID: 869346727967610786, guid: bb1dc2024fe7e1148b7d067f50a56015, type: 3}
@@ -6804,11 +6831,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1524963700}
     m_Modifications:
-    - target: {fileID: 869346727967610786, guid: bb1dc2024fe7e1148b7d067f50a56015,
-        type: 3}
-      propertyPath: _icon
-      value: 
-      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5993998410643203774, guid: bb1dc2024fe7e1148b7d067f50a56015,
         type: 3}
       propertyPath: _factionID
