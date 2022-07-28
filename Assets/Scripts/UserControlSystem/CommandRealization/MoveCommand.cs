@@ -12,5 +12,10 @@ namespace UserControlSystem.CommandsRealization
         {
             Targets = targets;
         }
+
+        public MoveCommand(Vector3 target)
+        {
+            Targets = new Vector3[] { target };
+        }
     }
 }

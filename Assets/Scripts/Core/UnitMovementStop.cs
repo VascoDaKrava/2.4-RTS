@@ -42,6 +42,7 @@ namespace Core
 
         public void DoStop()
         {
+            Debug.Log("UnitMovementStop.DoStop");
             _agentHolder.NavMeshAgent.isStopped = true;
             _agentHolder.NavMeshAgent.ResetPath();
             _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);

@@ -24,6 +24,8 @@ public sealed class HumanInstaller : MonoInstaller
         Container.Bind<IHolderUnitMovementStop>().FromComponentInChildren();
         Container.Bind<IHolderCommandExecutor>().FromComponentInChildren();
 
+        Container.Bind<ISelectable>().FromComponentInChildren();
+
         Container.Bind<IAutomaticAttacker>().FromComponentInChildren();
         Container.Bind<IFactionMember>().FromComponentInChildren();
         Container.Bind<ITickable>().FromInstance(_attacker);

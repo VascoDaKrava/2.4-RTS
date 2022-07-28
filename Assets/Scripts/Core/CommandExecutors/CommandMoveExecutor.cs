@@ -48,10 +48,12 @@ namespace Core.CommandExecutors
 
             try
             {
+                Debug.Log("try MoveExec");
                 await _unitMoveStop.WithCancellation(_unitCTSource.Token);
             }
             catch
             {
+                Debug.Log("catch MoveExec");
                 _rqueueMovePoints.Clear();
                 _stopMoveHolder.DoStop();
             }

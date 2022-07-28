@@ -68,9 +68,6 @@ namespace UserControlSystem.UI.View
         {
             foreach (var currentExecutor in commandExecutors)
             {
-                if (currentExecutor is CommandMoveExecutor)
-                { continue; }
-
                 var buttonGameObject = GETButtonGameObjectByType(currentExecutor.GetType());
                 buttonGameObject.SetActive(true);
                 var button = buttonGameObject.GetComponent<Button>();

@@ -9,7 +9,11 @@ namespace Core
 
         public CancellationToken Token => _ctSource == default ? default : _ctSource.Token;
 
-        public void NewToken() => _ctSource = new CancellationTokenSource();
+        public void NewToken()
+        {
+            Cancel();
+            _ctSource = new CancellationTokenSource();
+        }
 
         public void ClearToken()
         {
