@@ -1,10 +1,11 @@
 ﻿using System;
+using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using UniRx;
 using Zenject;
 
-namespace UserControlSystem
+namespace UserControlSystem.UI.Model
 {
     public sealed class CommandButtonsModel
     {
@@ -12,7 +13,7 @@ namespace UserControlSystem
         public event Action OnCommandSent;
         public event Action OnCommandCancel;
 
-        [Inject] private CommandCreatorBase<IProduceUnitCommand> _unitProducer;
+        [Inject] private CommandCreatorBase<IProduceUnitCommand<UnitBase>> _unitProducer;
         [Inject] private CommandCreatorBase<IAttackCommand> _attacker;
         [Inject] private CommandCreatorBase<IStopCommand> _stopper;
         [Inject] private CommandCreatorBase<IMoveCommand> _mover;

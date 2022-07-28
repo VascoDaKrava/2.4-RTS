@@ -4,6 +4,7 @@ using Abstractions;
 using Abstractions.Commands;
 using UniRx;
 using UnityEngine;
+using UserControlSystem.UI.Model;
 using UserControlSystem.UI.View;
 using Zenject;
 

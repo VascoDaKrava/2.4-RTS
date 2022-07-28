@@ -10,7 +10,7 @@ using UnityEngine;
 using UserControlSystem.CommandsRealization;
 using Zenject;
 
-public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand>, IUnitProducer
+public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand<UnitBase>>, IUnitProducer
 {
     [Inject] private DiContainer _container;
 
@@ -106,7 +106,7 @@ public class CommandProduceUnitExecutor : CommandExecutorBase<IProduceUnitComman
     public override async Task ExecuteSpecificCommand(ICommand baseCommand)
     {
         await Task.Yield();
-        var command = (IProduceUnitCommand)baseCommand;
+        var command = (IProduceUnitCommand<UnitBase>)baseCommand;
 
         if (_queue.Count < _maximumUnitsInQueue)
         {

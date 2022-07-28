@@ -1,6 +1,5 @@
 using Abstractions;
 using Abstractions.Commands;
-using Abstractions.Commands.CommandsInterfaces;
 using Core.CommandExecutors;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ using Zenject;
 
 namespace Core
 {
-    public sealed class Skeleton : UnitBase, IProduceUnitCommand
+    public sealed class Skeleton : UnitBase
     {
         [SerializeField] private float _timeForDestroyAfterDie = 3.0f;
 
@@ -48,9 +47,9 @@ namespace Core
         public override Sprite Icon => _icon;
         public override GameObject SelectionMarker => _selectionMarker;
 
-        public float ProductionTime => _productionTime;
-        public GameObject UnitPrefab => gameObject;
-        public string Name => _unitName;
+        public override float ProductionTime => _productionTime;
+        public override GameObject UnitPrefab => gameObject;
+        public override string Name => _unitName;
 
         public override NavMeshAgent NavMeshAgent => _navMeshAgent;
 

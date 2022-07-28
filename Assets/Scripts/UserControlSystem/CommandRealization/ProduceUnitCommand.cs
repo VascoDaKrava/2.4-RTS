@@ -1,11 +1,12 @@
-﻿using Abstractions.Commands.CommandsInterfaces;
+﻿using Abstractions;
+using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 using Zenject;
 
 
 namespace UserControlSystem.CommandsRealization
 {
-    public class ProduceUnitCommand : IProduceUnitCommand
+    public class ProduceUnitCommand : IProduceUnitCommand<UnitBase>
     {
         [Inject(Id = "Human.GameObject")] private GameObject _unitPrefab;
         [Inject(Id = "Human.Name")] public string Name { get; }

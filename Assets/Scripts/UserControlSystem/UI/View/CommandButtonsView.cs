@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Core.CommandExecutors;
@@ -39,7 +40,7 @@ namespace UserControlSystem.UI.View
                 .Add(typeof(CommandExecutorBase<IStopCommand>), _stopButton);
 
             _buttonsByExecutorType
-                .Add(typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton);
+                .Add(typeof(CommandExecutorBase<IProduceUnitCommand<UnitBase>>), _produceUnitButton);
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<ISetRallyPointCommand>), _setRallyPointButton);

@@ -1,10 +1,12 @@
 using Abstractions.Commands;
+using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Abstractions
 {
-    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, IHolderNavMeshAgent, IHolderAnimator, IHolderCommandExecutor, IAutomaticAttacker
+    public abstract class UnitBase : MonoBehaviour, ISelectable, IAttacker, IDamagable, 
+        IHolderNavMeshAgent, IHolderAnimator, IHolderCommandExecutor, IAutomaticAttacker, IProduceUnitCommand<UnitBase>
     {
         public abstract GameObject SelectionMarker { get; }
 
@@ -35,6 +37,10 @@ namespace Abstractions
         public abstract float VisionRadius { get; }
 
         public abstract ICommand CurrentCommand { get; set; }
+
+        public abstract float ProductionTime { get; }
+        public abstract GameObject UnitPrefab { get; }
+        public abstract string Name { get; }
 
         public abstract void GetDamage(float value);
 
