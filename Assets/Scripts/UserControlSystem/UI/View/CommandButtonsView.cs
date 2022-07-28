@@ -17,6 +17,7 @@ namespace UserControlSystem.UI.View
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _patrolButton;
+        [SerializeField] private Button _teleportButton;
         [SerializeField] private Button _stopButton;
         [SerializeField] private Button _produceUnitHumanButton;
         [SerializeField] private Button _produceUnitSkeletonButton;
@@ -39,6 +40,9 @@ namespace UserControlSystem.UI.View
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IStopCommand>), _stopButton);
+
+            _buttonsByExecutorType
+                .Add(typeof(CommandExecutorBase<ITeleportCommand>), _teleportButton);
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IProduceUnitCommand<Human>>), _produceUnitHumanButton);
@@ -70,6 +74,7 @@ namespace UserControlSystem.UI.View
             _moveButton.GetComponent<Selectable>().interactable = value;
             _patrolButton.GetComponent<Selectable>().interactable = value;
             _stopButton.GetComponent<Selectable>().interactable = value;
+            _teleportButton.GetComponent<Selectable>().interactable = value;
 
             _produceUnitHumanButton.GetComponent<Selectable>().interactable = value;
             _produceUnitSkeletonButton.GetComponent<Selectable>().interactable = value;

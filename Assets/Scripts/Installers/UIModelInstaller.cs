@@ -31,6 +31,11 @@ namespace Installers
                 .AsTransient();
 
             Container
+                .Bind<CommandCreatorBase<ITeleportCommand>>()
+                .To<TeleportCommandCommandCreator>()
+                .AsTransient();
+
+            Container
                 .Bind<CommandCreatorBase<IStopCommand>>()
                 .To<StopCommandCommandCreator>()
                 .AsTransient();

@@ -18,6 +18,7 @@ namespace UserControlSystem.UI.Model
         [Inject] private CommandCreatorBase<IStopCommand> _stopper;
         [Inject] private CommandCreatorBase<IMoveCommand> _mover;
         [Inject] private CommandCreatorBase<IPatrolCommand> _patroller;
+        [Inject] private CommandCreatorBase<ITeleportCommand> _teleporter;
         [Inject] private CommandCreatorBase<ISetRallyPointCommand> _rallyPointSetter;
 
         private bool _commandIsPending;
@@ -40,6 +41,7 @@ namespace UserControlSystem.UI.Model
             _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
             _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
             _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _teleporter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
             _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
         }
 
@@ -65,6 +67,7 @@ namespace UserControlSystem.UI.Model
             _stopper.ProcessCancel();
             _mover.ProcessCancel();
             _patroller.ProcessCancel();
+            _teleporter.ProcessCancel();
             _rallyPointSetter.ProcessCancel();
 
             OnCommandCancel?.Invoke();
