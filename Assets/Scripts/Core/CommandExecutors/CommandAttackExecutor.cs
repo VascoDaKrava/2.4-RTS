@@ -47,15 +47,18 @@ namespace Core.CommandExecutors
                     ))
                 .Distinct()
                 .ObserveOnMainThread()
-                .Subscribe(StartMovingToPosition);
+                .Subscribe(StartMovingToPosition)
+                .AddTo(this);
 
             _attackTargets
                 .ObserveOnMainThread()
-                .Subscribe(StartAttackingTargets);
+                .Subscribe(StartAttackingTargets)
+                .AddTo(this);
 
             _targetRotations
                 .ObserveOnMainThread()
-                .Subscribe(SetAttackRotation);
+                .Subscribe(SetAttackRotation)
+                .AddTo(this);
         }
 
         private void SetAttackRotation(Quaternion targetRotation)

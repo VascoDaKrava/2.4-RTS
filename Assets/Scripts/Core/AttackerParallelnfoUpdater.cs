@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Core
 {
-    public class AttackerParallelnfoUpdater : MonoBehaviour, ITickable
+    public class AttackerParallelnfoUpdater : MonoBehaviour, ITickable, IMotor
     {
         [Inject] private IAutomaticAttacker _automaticAttacker;
         [Inject] private IHolderCommandExecutor _holderCommand;

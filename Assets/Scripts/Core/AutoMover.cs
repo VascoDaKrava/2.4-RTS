@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Core
 {
-    public class AutoMover : MonoBehaviour
+    public class AutoMover : MonoBehaviour, IMotor
     {
         [Inject] ICommandButtonsPresenter _commandButtons;
         [Inject] private CommandMoveExecutor _moveExecutor;

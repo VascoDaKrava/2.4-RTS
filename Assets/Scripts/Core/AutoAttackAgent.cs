@@ -6,7 +6,7 @@ using UserControlSystem.CommandsRealization;
 
 namespace Core
 {
-    public class AutoAttackAgent : MonoBehaviour
+    public class AutoAttackAgent : MonoBehaviour, IMotor
     {
         [SerializeField] private CommandAttackExecutor _attackExecutor;
 

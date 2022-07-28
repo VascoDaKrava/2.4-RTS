@@ -2,6 +2,7 @@ using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using Core.CommandExecutors;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -79,6 +80,15 @@ namespace Core
         private async void DieAsync()
         {
             await _commandStopExecutor.TryExecuteCommand(new StopCommand());
+
+            foreach (var item in gameObject.GetComponentsInParent<IMotor>())
+            {
+                if (item is IDisposable)
+                {
+                    ((IDisposable)item).Dispose();
+                }
+            }
+
             _animator.SetTrigger(AnimatorParams.Die);
 
             var animationInfo = _animator.GetCurrentAnimatorStateInfo(0);
