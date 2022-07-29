@@ -1,4 +1,5 @@
-﻿using Abstractions.Commands.CommandsInterfaces;
+﻿using Abstractions;
+using Abstractions.Commands.CommandsInterfaces;
 using UserControlSystem;
 using UserControlSystem.UI.Model;
 using Zenject;
@@ -10,7 +11,7 @@ namespace Installers
         public override void InstallBindings()
         {
             Container
-                .Bind<CommandCreatorBase<IProduceUnitCommand>>()
+                .Bind<CommandCreatorBase<IProduceUnitCommand<UnitBase>>>()
                 .To<ProduceUnitCommandCommandCreator>()
                 .AsTransient();
 
@@ -27,6 +28,11 @@ namespace Installers
             Container
                 .Bind<CommandCreatorBase<IPatrolCommand>>()
                 .To<PatrolCommandCommandCreator>()
+                .AsTransient();
+
+            Container
+                .Bind<CommandCreatorBase<ITeleportCommand>>()
+                .To<TeleportCommandCommandCreator>()
                 .AsTransient();
 
             Container

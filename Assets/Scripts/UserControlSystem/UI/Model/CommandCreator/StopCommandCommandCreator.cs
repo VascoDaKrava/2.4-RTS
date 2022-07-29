@@ -7,7 +7,7 @@ namespace UserControlSystem
 {
     public sealed class StopCommandCommandCreator : CommandCreatorBase<IStopCommand>
     {
-        protected override void ClassSpecificCommandCreation(Action<IStopCommand> creationCallback)
+        protected override void ClassSpecificCommandCreation(Action<IStopCommand> creationCallback, Type type)
         {
             creationCallback?.Invoke(new StopCommand());
         }

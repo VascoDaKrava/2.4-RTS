@@ -17,6 +17,7 @@ namespace Core.CommandExecutors
         [Inject] private IHolderAnimator _animatorHolder;
         [Inject] private IHolderHealth _healthHolder;
         [Inject] private IHolderNavMeshAgent _navMeshAgentHolder;
+        [Inject] private IHolderUnitMovementStop _stopMoveHolder;
 
         [Inject(Id = "AttackRange")] private float _attackingRange;
         [Inject(Id = "AttackPeriod")] private int _attackingPeriod;
@@ -46,15 +47,18 @@ namespace Core.CommandExecutors
                     ))
                 .Distinct()
                 .ObserveOnMainThread()
-                .Subscribe(StartMovingToPosition);
+                .Subscribe(StartMovingToPosition)
+                .AddTo(this);
 
             _attackTargets
                 .ObserveOnMainThread()
-                .Subscribe(StartAttackingTargets);
+                .Subscribe(StartAttackingTargets)
+                .AddTo(this);
 
             _targetRotations
                 .ObserveOnMainThread()
-                .Subscribe(SetAttackRotation);
+                .Subscribe(SetAttackRotation)
+                .AddTo(this);
         }
 
         private void SetAttackRotation(Quaternion targetRotation)
@@ -90,12 +94,13 @@ namespace Core.CommandExecutors
             }
             catch
             {
+                _stopMoveHolder.DoStop();
                 _currentAttackOp.Cancel();
             }
 
-            _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
             _currentAttackOp = null;
             _targetTransform = null;
+            _stopMoveHolder.DoStop();
             _unitCTSource.ClearToken();
         }
 

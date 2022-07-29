@@ -6,5 +6,6 @@ namespace Abstractions
     {
         bool Selected { get; set; }
         Vector3 Position { get; set; }
+        abstract void BeforeDestroy();
     }
 }

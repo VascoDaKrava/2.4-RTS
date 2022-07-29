@@ -14,7 +14,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
     [SerializeField] private EventSystem _eventSystem;
 
     [Inject] private SelectableValue _selectedObject;
-    [Inject] private Vector3Value _groundPointClick;
+    [Inject] private GroundPointValue _groundPointClick;
     [Inject] private DamagableValue _damagableValue;
     [Inject] private AttackerValue _attackableValue;
 

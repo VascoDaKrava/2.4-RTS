@@ -2,8 +2,8 @@
 
 namespace Abstractions.Commands
 {
-    public interface ICommandExecutor<ICommand>
+    public interface ICommandExecutor<ICommand> : IMotor
     {
-        Task ExecuteSpecificCommand(ICommand command);
+        Task TryExecuteCommand(object command);
     }
 }

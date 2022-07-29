@@ -7,6 +7,8 @@ using Zenject;
 public sealed class HumanInstaller : MonoInstaller
 {
     [SerializeField] private Human _human;
+    [SerializeField] private AttackerParallelnfoUpdater _attacker;
+    [SerializeField] private FactionMemberParallelInfoUpdater _factionMember;
 
     public override void InstallBindings()
     {
@@ -20,6 +22,14 @@ public sealed class HumanInstaller : MonoInstaller
         Container.Bind<IHolderHealth>().FromComponentInChildren();
         Container.Bind<IHolderNavMeshAgent>().FromComponentInChildren();
         Container.Bind<IHolderUnitMovementStop>().FromComponentInChildren();
+        Container.Bind<IHolderCommandExecutor>().FromComponentInChildren();
+
+        Container.Bind<ISelectable>().FromComponentInChildren();
+
+        Container.Bind<IAutomaticAttacker>().FromComponentInChildren();
+        Container.Bind<IFactionMember>().FromComponentInChildren();
+        Container.Bind<ITickable>().FromInstance(_attacker);
+        Container.Bind<ITickable>().FromInstance(_factionMember);
 
         Container.Bind<float>().WithId("AttackRange").FromInstance(_human.AttackRange);
         Container.Bind<int>().WithId("AttackPeriod").FromInstance(_human.AttackPeriod);

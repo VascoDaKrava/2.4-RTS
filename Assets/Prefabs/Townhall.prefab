@@ -1415,6 +1415,8 @@ GameObject:
   - component: {fileID: 387556757896343895}
   - component: {fileID: 2211473186691560619}
   - component: {fileID: 5147593275515141938}
+  - component: {fileID: 65730972685393519}
+  - component: {fileID: 1372365137940630409}
   m_Layer: 0
   m_Name: Townhall
   m_TagString: Untagged
@@ -1470,6 +1472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0597dc75b79c5e04da08c98cfba3c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentCommandInWork: 0
   _faction: {fileID: 5147593275515141938}
   _unitsParent: {fileID: 0}
   _maximumUnitsInQueue: 5
@@ -1486,6 +1489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa80407bf44f0464cbaa6861b5de364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentCommandInWork: 0
 --- !u!114 &5147593275515141938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,6 +1503,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _factionID: 0
+--- !u!114 &65730972685393519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868151347601000063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f2111563bcbe846ba15adf85db2428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1372365137940630409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868151347601000063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 65730972685393519}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &7754168565320514746
 GameObject:
   m_ObjectHideFlags: 0

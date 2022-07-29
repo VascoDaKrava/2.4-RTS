@@ -24,7 +24,7 @@ namespace Core.CommandExecutors
 
             while (true)
             {
-                await _moveExecutor.ExecuteSpecificCommand(new MoveCommand(_patrolPoints));
+                await _moveExecutor.TryExecuteCommand(new MoveCommand(_patrolPoints));
                 
                 try
                 {

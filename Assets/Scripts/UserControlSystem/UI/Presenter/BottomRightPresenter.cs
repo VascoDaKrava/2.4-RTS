@@ -4,13 +4,13 @@ using Abstractions;
 using Abstractions.Commands;
 using UniRx;
 using UnityEngine;
+using UserControlSystem.UI.Model;
 using UserControlSystem.UI.View;
 using Zenject;
 
-
 namespace UserControlSystem.UI.Presenter
 {
-    public sealed class BottomRightPresenter : MonoBehaviour
+    public sealed class BottomRightPresenter : MonoBehaviour, ICommandButtonsPresenter
     {
         [SerializeField] private CommandButtonsView _view;
 
@@ -18,6 +18,8 @@ namespace UserControlSystem.UI.Presenter
         [Inject] private CommandButtonsModel _model;
 
         private ISelectable _currentSelectable;
+
+        public Subject<bool> IsCommandPending => _model.IsCommandPending;
 
         private void Start()
         {

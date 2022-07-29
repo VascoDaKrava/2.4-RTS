@@ -1,14 +1,17 @@
 using Abstractions;
-using Abstractions.Commands.CommandsInterfaces;
+using Abstractions.Commands;
 using Core.CommandExecutors;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
+using UserControlSystem;
 using UserControlSystem.CommandsRealization;
+using Zenject;
 
 namespace Core
 {
-    public sealed class Human : UnitBase, IProduceUnitCommand
+    public sealed class Human : UnitBase
     {
         [SerializeField] private float _timeForDestroyAfterDie = 3.0f;
 
@@ -16,6 +19,7 @@ namespace Core
         [SerializeField] private float _attackStrength = 25.0f;
         [SerializeField] private float _attackRange = 2.0f;
         [SerializeField] private int _attackPeriod = 1000;
+        [SerializeField] private float _visionRadius = 5.0f;
 
         [Space]
         [SerializeField] private float _maxHealth = 100.0f;
@@ -30,6 +34,10 @@ namespace Core
         [SerializeField] private float _productionTime = 3.0f;
         [SerializeField] private string _unitName = "Human";
 
+        [Inject] private SelectableValue _selectedObject;
+
+        private ICommand _currentCommand;
+
         public override float AttackStrength => _attackStrength;
         public override float AttackRange => _attackRange;
         public override int AttackPeriod => _attackPeriod;
@@ -39,13 +47,17 @@ namespace Core
         public override Sprite Icon => _icon;
         public override GameObject SelectionMarker => _selectionMarker;
 
-        public float ProductionTime => _productionTime;
-        public GameObject UnitPrefab => gameObject;
-        public string Name => _unitName;
+        public override float ProductionTime => _productionTime;
+        public override GameObject UnitPrefab => gameObject;
+        public override string Name => _unitName;
 
         public override NavMeshAgent NavMeshAgent => _navMeshAgent;
 
         public override Animator Animator => _animator;
+
+        public override float VisionRadius => _visionRadius;
+
+        public override ICommand CurrentCommand { get => _currentCommand; set => _currentCommand = value; }
 
         public override void GetDamage(float value)
         {
@@ -56,9 +68,26 @@ namespace Core
             }
         }
 
+        public override void BeforeDestroy()
+        {
+            if (Selected)
+            {
+                _selectedObject.SetValue(null);
+            }
+        }
+
         private async void DieAsync()
         {
-            await _commandStopExecutor.ExecuteSpecificCommand(new StopCommand());
+            await _commandStopExecutor.TryExecuteCommand(new StopCommand());
+
+            foreach (var item in gameObject.GetComponentsInParent<IMotor>())
+            {
+                if (item is IDisposable)
+                {
+                    ((IDisposable)item).Dispose();
+                }
+            }
+
             _animator.SetTrigger(AnimatorParams.Die);
 
             var animationInfo = _animator.GetCurrentAnimatorStateInfo(0);

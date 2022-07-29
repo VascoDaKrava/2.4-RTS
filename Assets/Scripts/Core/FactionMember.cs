@@ -19,7 +19,7 @@ namespace Core
             _gameState.AddFactionMember(this);
         }
 
-        private void Awake()
+        private void Start()
         {
             if (_factionID != FactionID.Nobody)
             {

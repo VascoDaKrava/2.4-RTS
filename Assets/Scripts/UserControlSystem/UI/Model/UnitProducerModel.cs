@@ -15,7 +15,16 @@ namespace UserControlSystem.UI.Model
         {
             UnitProducers = currentlySelected
                 .Select(selectable => selectable as Component)
-                .Select(component => component?.GetComponent<IUnitProducer>());
+                .Where(c => c != null)
+                .Select(component =>
+                {
+                    if (component.TryGetComponent<IUnitProducer>(out var realComponent))
+                    {
+                        return realComponent;
+                    }
+
+                    return default;
+                });
         }
     }
 }

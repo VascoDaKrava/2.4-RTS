@@ -1,9 +1,11 @@
 ﻿using System;
+using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using UniRx;
 using Zenject;
 
-namespace UserControlSystem
+namespace UserControlSystem.UI.Model
 {
     public sealed class CommandButtonsModel
     {
@@ -11,16 +13,18 @@ namespace UserControlSystem
         public event Action OnCommandSent;
         public event Action OnCommandCancel;
 
-        [Inject] private CommandCreatorBase<IProduceUnitCommand> _unitProducer;
+        [Inject] private CommandCreatorBase<IProduceUnitCommand<UnitBase>> _unitProducer;
         [Inject] private CommandCreatorBase<IAttackCommand> _attacker;
         [Inject] private CommandCreatorBase<IStopCommand> _stopper;
         [Inject] private CommandCreatorBase<IMoveCommand> _mover;
         [Inject] private CommandCreatorBase<IPatrolCommand> _patroller;
+        [Inject] private CommandCreatorBase<ITeleportCommand> _teleporter;
         [Inject] private CommandCreatorBase<ISetRallyPointCommand> _rallyPointSetter;
 
         private bool _commandIsPending;
+        public Subject<bool> IsCommandPending = new Subject<bool>();
 
-        public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor)
+        public void OnCommandButtonClicked(ICommandExecutor<ICommand> commandExecutor, Type type)
         {
             if (_commandIsPending)
             {
@@ -28,26 +32,31 @@ namespace UserControlSystem
             }
 
             _commandIsPending = true;
+            IsCommandPending.OnNext(_commandIsPending);
             OnCommandAccepted?.Invoke(commandExecutor);
 
-            _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _attacker.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
-            _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+
+            _attacker.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _teleporter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
+            _rallyPointSetter.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command), type);
         }
 
         public void ExecuteCommandWrapper(ICommandExecutor<ICommand> commandExecutor, ICommand command)
         {
-            commandExecutor.ExecuteSpecificCommand(command);
+            commandExecutor.TryExecuteCommand(command);
             _commandIsPending = false;
+            IsCommandPending.OnNext(_commandIsPending);
             OnCommandSent?.Invoke();
         }
 
         public void OnSelectionChanged()
         {
             _commandIsPending = false;
+            IsCommandPending.OnNext(_commandIsPending);
             ProcessOnCancel();
         }
 
@@ -58,6 +67,7 @@ namespace UserControlSystem
             _stopper.ProcessCancel();
             _mover.ProcessCancel();
             _patroller.ProcessCancel();
+            _teleporter.ProcessCancel();
             _rallyPointSetter.ProcessCancel();
 
             OnCommandCancel?.Invoke();

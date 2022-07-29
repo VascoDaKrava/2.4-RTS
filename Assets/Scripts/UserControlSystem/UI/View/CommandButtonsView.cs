@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,20 +12,22 @@ namespace UserControlSystem.UI.View
 {
     public sealed class CommandButtonsView : MonoBehaviour
     {
-        public Action<ICommandExecutor<ICommand>> OnClick;
+        public Action<ICommandExecutor<ICommand>, Type> OnClick;
 
-        [SerializeField] private GameObject _attackButton;
-        [SerializeField] private GameObject _moveButton;
-        [SerializeField] private GameObject _patrolButton;
-        [SerializeField] private GameObject _stopButton;
-        [SerializeField] private GameObject _produceUnitButton;
-        [SerializeField] private GameObject _setRallyPointButton;
+        [SerializeField] private Button _attackButton;
+        [SerializeField] private Button _moveButton;
+        [SerializeField] private Button _patrolButton;
+        [SerializeField] private Button _teleportButton;
+        [SerializeField] private Button _stopButton;
+        [SerializeField] private Button _produceUnitHumanButton;
+        [SerializeField] private Button _produceUnitSkeletonButton;
+        [SerializeField] private Button _setRallyPointButton;
 
-        private Dictionary<Type, GameObject> _buttonsByExecutorType;
+        private Dictionary<Type, Button> _buttonsByExecutorType;
 
         private void Awake()
         {
-            _buttonsByExecutorType = new Dictionary<Type, GameObject>();
+            _buttonsByExecutorType = new Dictionary<Type, Button>();
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<IAttackCommand>), _attackButton);
@@ -38,43 +42,67 @@ namespace UserControlSystem.UI.View
                 .Add(typeof(CommandExecutorBase<IStopCommand>), _stopButton);
 
             _buttonsByExecutorType
-                .Add(typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton);
+                .Add(typeof(CommandExecutorBase<ITeleportCommand>), _teleportButton);
+
+            _buttonsByExecutorType
+                .Add(typeof(CommandExecutorBase<IProduceUnitCommand<Human>>), _produceUnitHumanButton);
+
+            _buttonsByExecutorType
+                .Add(typeof(CommandExecutorBase<IProduceUnitCommand<Skeleton>>), _produceUnitSkeletonButton);
 
             _buttonsByExecutorType
                 .Add(typeof(CommandExecutorBase<ISetRallyPointCommand>), _setRallyPointButton);
         }
 
-        public void BlockInteractions(ICommandExecutor<ICommand> ce)
+        public void BlockInteractions(ICommandExecutor<ICommand> comExec)
         {
             UnblockAllInteractions();
-            GETButtonGameObjectByType(ce.GetType())
-                .GetComponent<Selectable>().interactable = false;
+            if (comExec is CommandExecutorBase<IProduceUnitCommand<UnitBase>>)
+            {
+                _produceUnitHumanButton.interactable = false;
+                _produceUnitSkeletonButton.interactable = false;
+                return;
+            }
+            GETButtonGameObjectByType(comExec.GetType()).interactable = false;
         }
 
         public void UnblockAllInteractions() => SetInteractible(true);
 
         private void SetInteractible(bool value)
         {
-            _attackButton.GetComponent<Selectable>().interactable = value;
-            _moveButton.GetComponent<Selectable>().interactable = value;
-            _patrolButton.GetComponent<Selectable>().interactable = value;
-            _stopButton.GetComponent<Selectable>().interactable = value;
-            _produceUnitButton.GetComponent<Selectable>().interactable = value;
-            _setRallyPointButton.GetComponent<Selectable>().interactable = value;
+            _attackButton.interactable = value;
+            _moveButton.interactable = value;
+            _patrolButton.interactable = value;
+            _stopButton.interactable = value;
+            _teleportButton.interactable = value;
+
+            _produceUnitHumanButton.interactable = value;
+            _produceUnitSkeletonButton.interactable = value;
+            _setRallyPointButton.interactable = value;
         }
 
         public void MakeLayout(IEnumerable<ICommandExecutor<ICommand>> commandExecutors)
         {
             foreach (var currentExecutor in commandExecutors)
             {
-                var buttonGameObject = GETButtonGameObjectByType(currentExecutor.GetType());
-                buttonGameObject.SetActive(true);
-                var button = buttonGameObject.GetComponent<Button>();
-                button.onClick.AddListener(() => OnClick?.Invoke(currentExecutor));
+                if (currentExecutor is CommandExecutorBase<IProduceUnitCommand<UnitBase>>)
+                {
+                    _produceUnitHumanButton.gameObject.SetActive(true);
+                    _produceUnitHumanButton.onClick.AddListener(() => OnClick?.Invoke(currentExecutor, typeof(Human)));
+
+                    _produceUnitSkeletonButton.gameObject.SetActive(true);
+                    _produceUnitSkeletonButton.onClick.AddListener(() => OnClick?.Invoke(currentExecutor, typeof(Skeleton)));
+
+                    continue;
+                }
+
+                var button = GETButtonGameObjectByType(currentExecutor.GetType());
+                button.gameObject.SetActive(true);
+                button.onClick.AddListener(() => OnClick?.Invoke(currentExecutor, default));
             }
         }
 
-        private GameObject GETButtonGameObjectByType(Type executorInstanceType)
+        private Button GETButtonGameObjectByType(Type executorInstanceType)
         {
             return _buttonsByExecutorType
                 .First(type => type.Key.IsAssignableFrom(executorInstanceType))
@@ -85,8 +113,8 @@ namespace UserControlSystem.UI.View
         {
             foreach (var kvp in _buttonsByExecutorType)
             {
-                kvp.Value.GetComponent<Button>().onClick.RemoveAllListeners();
-                kvp.Value.SetActive(false);
+                kvp.Value.onClick.RemoveAllListeners();
+                kvp.Value.gameObject.SetActive(false);
             }
         }
     }

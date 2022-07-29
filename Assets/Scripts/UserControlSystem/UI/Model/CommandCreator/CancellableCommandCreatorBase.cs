@@ -13,7 +13,7 @@ namespace UserControlSystem
 
         private CancellationTokenSource _ctSource;
 
-        protected override async void ClassSpecificCommandCreation(Action<TCommand> creationCallback)
+        protected override async void ClassSpecificCommandCreation(Action<TCommand> creationCallback, Type type)
         {
             _ctSource = new CancellationTokenSource();
             try

@@ -9,6 +9,7 @@ namespace Core
     public sealed class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>, IHolderUnitMovementStop
     {
         [Inject] private IHolderNavMeshAgent _agentHolder;
+        [Inject] private IHolderAnimator _animatorHolder;
 
         private IDisposable _moveObserver;
 
@@ -43,6 +44,7 @@ namespace Core
         {
             _agentHolder.NavMeshAgent.isStopped = true;
             _agentHolder.NavMeshAgent.ResetPath();
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
             _moveObserver?.Dispose();
             OnStop?.Invoke();
         }
