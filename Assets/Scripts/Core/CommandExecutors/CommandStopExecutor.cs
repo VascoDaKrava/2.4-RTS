@@ -1,20 +1,18 @@
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using System.Threading.Tasks;
+using Zenject;
 
 namespace Core.CommandExecutors
 {
     public sealed class CommandStopExecutor : CommandExecutorBase<IStopCommand>
     {
-        private UnitCTSource _unitCTSource;
+        [Inject] private UnitCTSource _unitCTSource;
 
-        private void Start()
+        public override async Task ExecuteSpecificCommand(ICommand command)
         {
-            _unitCTSource = GetComponent<UnitCTSource>();
-        }
-
-        public override void ExecuteSpecificCommand(IStopCommand command)
-        {
-            _unitCTSource.CTSource?.Cancel();
+            await Task.Yield();
+            _unitCTSource.Cancel();
         }
     }
 }

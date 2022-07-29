@@ -6,30 +6,30 @@ namespace Installers
 {
     public sealed class PrefabsInstaller : MonoInstaller
     {
-        [SerializeField] private GameObject _unitHuman;
+        [SerializeField] private Human _unitHuman;
 
         public override void InstallBindings()
         {
             Container
                 .Bind<GameObject>()
-                .WithId("UnitHuman")
-                .FromInstance(_unitHuman)
+                .WithId("Human.GameObject")
+                .FromInstance(_unitHuman.gameObject)
                 .AsTransient();
 
             Container
                 .Bind<float>()
-                .WithId("UnitHuman")
-                .FromInstance(_unitHuman.GetComponent<Human>().ProductionTime);
+                .WithId("Human.ProductionTime")
+                .FromInstance(_unitHuman.ProductionTime);
 
             Container
                 .Bind<string>()
-                .WithId("UnitHuman")
-                .FromInstance(_unitHuman.GetComponent<Human>().Name);
+                .WithId("Human.Name")
+                .FromInstance(_unitHuman.Name);
 
             Container
                 .Bind<Sprite>()
-                .WithId("UnitHuman")
-                .FromInstance(_unitHuman.GetComponent<Human>().Icon);
+                .WithId("Human.Icon")
+                .FromInstance(_unitHuman.Icon);
         }
     }
 }

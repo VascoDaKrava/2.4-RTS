@@ -1,54 +1,62 @@
 using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
-using System.Threading;
+using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AI;
-using AnimationState = Abstractions.AnimationState;
+using Zenject;
 
 namespace Core.CommandExecutors
 {
     public sealed class CommandMoveExecutor : CommandExecutorBase<IMoveCommand>
     {
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private UnitMovementStop _stop;
-        [SerializeField] private UnitCTSource _unitCTSource;
+        [Inject] private IHolderNavMeshAgent _agentHolder;
+        [Inject] private IHolderAnimator _animatorHolder;
+        [Inject] private IHolderUnitMovementStop _stopMoveHolder;
+        [Inject] private UnitMovementStop _stopMoveStop;
+        [Inject] private UnitCTSource _unitCTSource;
+
         private ReactiveCollection<Vector3> _rqueueMovePoints;
 
-        public override void ExecuteSpecificCommand(IMoveCommand command)
+        public override async Task ExecuteSpecificCommand(ICommand baseCommand)
         {
+            var command = (IMoveCommand)baseCommand;
             _rqueueMovePoints = command.Targets.ToReactiveCollection();
-            _rqueueMovePoints.ObserveCountChanged().Subscribe(count => OnObserveCountChanged(count)).AddTo(this);
-            DoMove(_rqueueMovePoints[0]);
+
+            _rqueueMovePoints
+                .ObserveCountChanged()
+                .Subscribe(async count => await OnObserveCountChangedAsync(count))
+                .AddTo(this);
+
+            await DoMove(_rqueueMovePoints[0]);
         }
 
-        private void OnObserveCountChanged(int count)
+        private async Task OnObserveCountChangedAsync(int count)
         {
             if (count > 0)
             {
-                DoMove(_rqueueMovePoints[0]);
+                await DoMove(_rqueueMovePoints[0]);
             }
         }
 
-        private async void DoMove(Vector3 target)
+        private async Task DoMove(Vector3 target)
         {
-            _agent.destination = target;
-            _animator.SetTrigger(AnimationState.Walk);
-            _unitCTSource.CTSource = new CancellationTokenSource();
+            _agentHolder.NavMeshAgent.destination = target;
+            _stopMoveHolder.StartObservingMovement();
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Walk);
+            _unitCTSource.NewToken();
 
             try
             {
-                await _stop.WithCancellation(_unitCTSource.CTSource.Token);
+                await _stopMoveStop.WithCancellation(_unitCTSource.Token);
             }
             catch
             {
                 _rqueueMovePoints.Clear();
+                _stopMoveHolder.DoStop();
             }
 
-            _unitCTSource.CTSource = null;
-            _animator.SetTrigger(AnimationState.Idle);
+            _animatorHolder.Animator.SetTrigger(AnimatorParams.Idle);
 
             if (_rqueueMovePoints.Count > 0)
             {

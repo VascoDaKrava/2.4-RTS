@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderHealth, IHolderRallyPoint
+    public sealed class MainBuilding : MonoBehaviour, ISelectable, IDamagable, IHolderRallyPoint
     {
         [SerializeField] private Sprite _icon;
 
@@ -40,6 +40,10 @@ namespace Core
         {
             _health -= value;
             Debug.Log($"{this} get {value} damage.");
+            if (_health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

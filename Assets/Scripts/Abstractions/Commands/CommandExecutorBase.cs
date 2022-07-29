@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Abstractions.Commands
 {
-    public abstract class CommandExecutorBase<T> : MonoBehaviour, ICommandExecutor where T : ICommand
+    public abstract class CommandExecutorBase<T> : MonoBehaviour, ICommandExecutor<ICommand> where T : ICommand
     {
-        public void ExecuteCommand(object command)
+        public async Task TryExecuteCommand(object command)
         {
-            ExecuteSpecificCommand((T)command);
+            if (command is T specificCommand)
+            {
+                await ExecuteSpecificCommand(specificCommand);
+            }
         }
 
-        public abstract void ExecuteSpecificCommand(T command);
+        public abstract Task ExecuteSpecificCommand(ICommand command);
     }
 }

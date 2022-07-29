@@ -6,7 +6,7 @@ namespace UserControlSystem
 {
     public abstract class CommandCreatorBase<T> where T : ICommand
     {
-        public ICommandExecutor ProcessCommandExecutor(ICommandExecutor commandExecutor, Action<T> callback)
+        public ICommandExecutor<ICommand> ProcessCommandExecutor(ICommandExecutor<ICommand> commandExecutor, Action<T> callback)
         {
             var classSpecificExecutor = commandExecutor as CommandExecutorBase<T>;
             if (classSpecificExecutor != null)

@@ -1120,8 +1120,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 3, z: 7}
-  m_Center: {x: -1.5, y: 1.5, z: 1.5}
+  m_Size: {x: 7, y: 2, z: 7}
+  m_Center: {x: -1.5, y: 1, z: 1.5}
 --- !u!1 &5873961270918867734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,14 +1145,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5873961270918867734}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.9238796, z: -0, w: -0.38268325}
   m_LocalPosition: {x: -3, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5555024237705790537}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
 --- !u!1 &5960393311414239543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,6 +1414,7 @@ GameObject:
   - component: {fileID: 1312524274967281373}
   - component: {fileID: 387556757896343895}
   - component: {fileID: 2211473186691560619}
+  - component: {fileID: 5147593275515141938}
   m_Layer: 0
   m_Name: Townhall
   m_TagString: Untagged
@@ -1469,6 +1470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0597dc75b79c5e04da08c98cfba3c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _faction: {fileID: 5147593275515141938}
   _unitsParent: {fileID: 0}
   _maximumUnitsInQueue: 5
   _unitCreationPosition: {fileID: 6142120263834589294}
@@ -1484,6 +1486,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa80407bf44f0464cbaa6861b5de364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5147593275515141938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868151347601000063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bd611b6d51b8c49828a297940f4404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _factionID: 0
 --- !u!1 &7754168565320514746
 GameObject:
   m_ObjectHideFlags: 0

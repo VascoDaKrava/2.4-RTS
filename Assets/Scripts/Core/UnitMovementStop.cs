@@ -2,13 +2,16 @@
 using System;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AI;
+using Zenject;
 
 namespace Core
 {
-    public class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>
+    public sealed class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>, IHolderUnitMovementStop
     {
-        [SerializeField] private NavMeshAgent _agent;
+        [Inject] private IHolderNavMeshAgent _agentHolder;
+
+        private IDisposable _moveObserver;
+
         [SerializeField] private float _velocityStopFactor = 0.3f;
         [SerializeField] private int _framesCountStopFactor = 60;
 
@@ -18,35 +21,32 @@ namespace Core
         {
             Observable
                 .EveryUpdate()
-                .Where(velocity => _agent.velocity.sqrMagnitude < _velocityStopFactor)
+                .Where(_ => _agentHolder.NavMeshAgent.hasPath)
+                .Where(_ => _agentHolder.NavMeshAgent.velocity.sqrMagnitude < _velocityStopFactor)
                 .Select(_ => Time.frameCount)
                 .Distinct()
                 .Buffer(_framesCountStopFactor)
-                .Subscribe(_ => DoStop())
+                .Subscribe(_ => DoStop())// When destination is unreachable
                 .AddTo(this);
         }
 
-        private void Update()
+        public void StartObservingMovement()
         {
-            if (!_agent.pathPending)
-            {
-                if (_agent.remainingDistance <= _agent.stoppingDistance)
-                {
-                    if (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f)
-                    {
-                        DoStop();
-                    }
-                }
-            }
+            _moveObserver = Observable
+                .EveryUpdate()
+                .Where(_ => !_agentHolder.NavMeshAgent.hasPath)
+                .Subscribe(_ => DoStop())// When path was finished
+                .AddTo(this);
+        }
+
+        public void DoStop()
+        {
+            _agentHolder.NavMeshAgent.isStopped = true;
+            _agentHolder.NavMeshAgent.ResetPath();
+            _moveObserver?.Dispose();
+            OnStop?.Invoke();
         }
 
         public IAwaiter<AsyncExtensions.Void> GetAwaiter() => new StopAwaiter(this);
-
-        private void DoStop()
-        {
-            _agent.isStopped = true;
-            _agent.ResetPath();
-            OnStop?.Invoke();
-        }
     }
 }

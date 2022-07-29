@@ -1,5 +1,4 @@
 ﻿using Abstractions.Commands.CommandsInterfaces;
-using UnityEngine;
 using UserControlSystem;
 using UserControlSystem.UI.Model;
 using Zenject;
@@ -8,8 +7,6 @@ namespace Installers
 {
     public class UIModelInstaller : MonoInstaller
     {
-        [SerializeField] private Sprite _humanUnitIcon;
-
         public override void InstallBindings()
         {
             Container

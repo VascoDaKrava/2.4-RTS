@@ -1,6 +1,6 @@
 namespace Abstractions
 {
-    public interface IDamagable
+    public interface IDamagable : IHolderHealth
     {
         void GetDamage(float value);
     }

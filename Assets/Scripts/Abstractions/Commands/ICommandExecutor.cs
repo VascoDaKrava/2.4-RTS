@@ -1,7 +1,9 @@
-﻿namespace Abstractions.Commands
+﻿using System.Threading.Tasks;
+
+namespace Abstractions.Commands
 {
-    public interface ICommandExecutor
+    public interface ICommandExecutor<ICommand>
     {
-        void ExecuteCommand(object command);
+        Task ExecuteSpecificCommand(ICommand command);
     }
 }

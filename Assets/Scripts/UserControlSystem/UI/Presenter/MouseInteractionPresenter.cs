@@ -40,7 +40,7 @@ public sealed class MouseInteractionPresenter : MonoBehaviour
         _selectedObject.SetValue(HitResult<ISelectable>(hits));
 
         _attackableValue.SetValue(null);
-        _attackableValue.SetValue(HitResult<IAttackable>(hits));
+        _attackableValue.SetValue(HitResult<IAttacker>(hits));
     }
 
     private void RightButtonClickHandler()

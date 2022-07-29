@@ -2,6 +2,6 @@
 {
     public interface IAttackCommand : ICommand
     {
-
+        public IDamagable Target { get; }
     }
 }
