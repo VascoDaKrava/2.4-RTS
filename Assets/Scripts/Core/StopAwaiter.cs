@@ -9,12 +9,12 @@ namespace Core
         public StopAwaiter(UnitMovementStop unitMovementStop)
         {
             _unitMovementStop = unitMovementStop;
-            _unitMovementStop.OnStop += ONStop;
+            _unitMovementStop.OnStop += OnStop;
         }
 
-        private void ONStop()
+        private void OnStop()
         {
-            _unitMovementStop.OnStop -= ONStop;
+            _unitMovementStop.OnStop -= OnStop;
             OnFinish(new AsyncExtensions.Void());
         }
     }

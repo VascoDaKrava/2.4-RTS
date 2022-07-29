@@ -100,6 +100,7 @@ namespace Core.CommandExecutors
 
             _currentAttackOp = null;
             _targetTransform = null;
+            _stopMoveHolder.DoStop();
             _unitCTSource.ClearToken();
         }
 

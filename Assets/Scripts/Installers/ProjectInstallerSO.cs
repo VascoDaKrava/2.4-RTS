@@ -12,12 +12,12 @@ namespace Installers
         [SerializeField] private AttackerValue _attackableleValue;
         [SerializeField] private DamagableValue _damagableValue;
         [SerializeField] private SelectableValue _selectableleValue;
-        [SerializeField] private Vector3Value _vector3Value;
+        [SerializeField] private GroundPointValue _vector3Value;
 
         public override void InstallBindings()
         {
             Container
-                .Bind<Vector3Value>()
+                .Bind<GroundPointValue>()
                 .FromInstance(_vector3Value);
 
             Container

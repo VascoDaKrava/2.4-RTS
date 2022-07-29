@@ -12,11 +12,10 @@ namespace Core
     {
         [Inject] ICommandButtonsPresenter _commandButtons;
         [Inject] private CommandMoveExecutor _moveExecutor;
-        [Inject] private Vector3Value _groundPointClick;
+        [Inject] private GroundPointValue _groundPointClick;
         [Inject] private ISelectable _selectable;
 
-        [SerializeField] private bool _isOtherCommandWaitInput = false;
-        [SerializeField] private bool _isInputPending = false;
+        private bool _isOtherCommandWaitInput = false;
 
         private void Start()
         {

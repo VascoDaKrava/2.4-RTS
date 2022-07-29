@@ -19,6 +19,9 @@ namespace UserControlSystem.UI.Presenter
         [Inject]
         private void Init(UnitProducerModel model, ProductionQueueView view)
         {
+            view.Clear();
+            _uiHolder.SetActive(false);
+
             model.UnitProducers.Subscribe(unitProducer =>
             {
                 _productionQueueAddCt?.Dispose();

@@ -8,7 +8,6 @@ using Zenject;
 namespace Core
 {
     public sealed class Tower : MonoBehaviour, ISelectable, IDamagable, IAttacker, IHolderCommandExecutor, IHolderAnimator
-        ,IHolderNavMeshAgent ,IHolderUnitMovementStop
     {
         [Space]
         [SerializeField] private Sprite _icon;
@@ -18,6 +17,7 @@ namespace Core
 
         [Space]
         [SerializeField] private GameObject _selectionMarker;
+        [SerializeField] private GameObject _attackRangeMarker;
         [SerializeField] private Animator _animator;
 
         [Space]
@@ -37,6 +37,7 @@ namespace Core
             set
             {
                 _selectionMarker.SetActive(value);
+                _attackRangeMarker.SetActive(value);
             }
         }
 
@@ -54,7 +55,15 @@ namespace Core
 
         public Animator Animator => _animator;
 
-        public NavMeshAgent NavMeshAgent => throw new System.NotImplementedException();
+        private void Awake()
+        {
+            _attackRangeMarker.transform.localScale *= _attackRange * 2;
+        }
+
+        private void OnDestroy()
+        {
+            BeforeDestroy();
+        }
 
         public void BeforeDestroy()
         {
@@ -64,11 +73,6 @@ namespace Core
             }
         }
 
-        private void OnDestroy()
-        {
-            BeforeDestroy();
-        }
-
         public void GetDamage(float value)
         {
             _health -= value;
@@ -76,16 +80,6 @@ namespace Core
             {
                 Destroy(gameObject);
             }
-        }
-
-        public void StartObservingMovement()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DoStop()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
